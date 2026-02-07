@@ -1,0 +1,8 @@
+บอกให้หุ่นยนต์ทุกตัว (รวมถึง Google) เข้ามาเก็บข้อมูลได้ทุกส่วน
+
+User-agent: *
+Allow: /
+
+ระบุตำแหน่งของ Sitemap เพื่อให้ Google หาเจอได้ง่ายขึ้น
+
+Sitemap: https://www.google.com/search?q=https://work-five-beige.vercel.app/sitemap.xml

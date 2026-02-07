@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="[ลิงค์ที่น่าสงสัยถูกลบ]">
+<!-- หน้าแรกของเว็บไซต์ -->
+<url>
+<loc>https://work-five-beige.vercel.app/</loc>
+<lastmod>2026-02-07</lastmod>
+<changefreq>weekly</changefreq>
+<priority>1.0</priority>
+</url>
+
+<!-- ระบุส่วนสำคัญของหน้าเว็บ (แม้จะเป็นหน้าเดียวแต่ระบุเพื่อให้ Google ทราบโครงสร้าง) -->
+
+<url>
+<loc>https://www.google.com/search?q=https://work-five-beige.vercel.app/%23services</loc>
+<lastmod>2026-02-07</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+
+<url>
+<loc>https://www.google.com/search?q=https://work-five-beige.vercel.app/%23booking</loc>
+<lastmod>2026-02-07</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.9</priority>
+</url>
+</urlset>

@@ -3,7 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Work Flow - รับจ้างงานฟรีแลนซ์ครบวงจร</title>
+    
+    <!-- === ส่วนที่เพิ่มเพื่อ SEO (ทำให้แสดงบน Google) === -->
+    <title>Work Flow - รับจ้างงานฟรีแลนซ์ครบวงจร | งานนำเสนอ เอกสาร Admin</title>
+    <meta name="description" content="Work Flow บริการรับจ้างงานฟรีแลนซ์มืออาชีพ รับทำ PowerPoint, Canva, งานเอกสาร, จัดรูปแบบวิทยานิพนธ์ และบริการ Admin ดูแลเพจ ตอบแชท รวดเร็ว คุณภาพดี ราคาเป็นกันเอง">
+    <meta name="keywords" content="รับทำ PowerPoint, รับทำ Canva, งานเอกสารฟรีแลนซ์, รับพิมพ์งาน, Admin ดูแลเพจ, Work Flow ฟรีแลนซ์">
+    <meta name="author" content="Work Flow Agency">
+    <link rel="canonical" href="https://your-domain.com/" /> <!-- เปลี่ยนเป็นลิงก์จริงของคุณ -->
+
+    <!-- Open Graph / Facebook (สำหรับการแชร์โซเชียล) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-domain.com/">
+    <meta property="og:title" content="Work Flow - เปลี่ยนงานยาก ให้เป็นงานง่าย">
+    <meta property="og:description" content="รับจ้างงานฟรีแลนซ์ งานนำเสนอ รายงาน และงานออนไลน์ทั่วไป โดยทีมงานมืออาชีพ">
+    <meta property="og:image" content="https://placehold.co/1200x630/2563eb/ffffff?text=Work+Flow+Agency">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Work Flow - รับจ้างงานฟรีแลนซ์ครบวงจร">
+    <meta property="twitter:description" content="รับทำ PowerPoint, Canva, งานเอกสาร และบริการ Admin ออนไลน์">
+
+    <!-- JSON-LD Structured Data (Google จะเข้าใจธุรกิจคุณได้ดีขึ้น) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Work Flow Agency",
+      "image": "https://placehold.co/800x600/2563eb/ffffff?text=Work+Flow",
+      "description": "บริการรับจ้างงานฟรีแลนซ์ งานนำเสนอ เอกสาร และ Admin ออนไลน์",
+      "telephone": "0982165174",
+      "url": "https://your-domain.com/",
+      "priceRange": "฿฿",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "TH"
+      }
+    }
+    </script>
+    <!-- === สิ้นสุดส่วน SEO === -->
     
     <!-- Google Site Verification Tag -->
     <meta name="google-site-verification" content="N285uTUonyzVnxui0WNbB9zO4dgUN0QNyBrugVbEZ2Y" />
@@ -66,7 +103,7 @@
         .glass-card:hover { transform: translateY(-5px) scale(1.01); background: rgba(255, 255, 255, 0.4); border-color: #fff; box-shadow: 0 15px 40px rgba(37, 99, 235, 0.2); }
         .hero-glass { background: linear-gradient(135deg, rgba(37, 99, 235, 0.85) 0%, rgba(59, 130, 246, 0.75) 100%); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3); color: white; box-shadow: 0 20px 50px rgba(37, 99, 235, 0.3); }
 
-        /* --- Modals (Service Details) --- */
+        /* --- Modals --- */
         .modal-backdrop {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px);
@@ -90,18 +127,8 @@
 
         .booking-slot { cursor: pointer; transition: all 0.3s; font-weight: 600; font-size: 1.1rem; }
         .booking-slot:hover { transform: scale(1.1); z-index: 10; border-color: #2563eb; }
-        
-        /* High Contrast Booking Colors */
-        .booking-slot.booked { 
-            background-color: #fca5a5; /* Stronger Red */
-            color: #7f1d1d; 
-            border: 2px solid #ef4444; 
-        }
-        .booking-slot.available { 
-            background-color: #86efac; /* Stronger Green */
-            color: #14532d; 
-            border: 2px solid #22c55e; 
-        }
+        .booking-slot.booked { background-color: #fca5a5; color: #7f1d1d; border: 2px solid #ef4444; }
+        .booking-slot.available { background-color: #86efac; color: #14532d; border: 2px solid #22c55e; }
         
         #loading-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); z-index: 9999; display: flex; justify-content: center; items-center; flex-direction: column; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -112,18 +139,15 @@
     <div class="bg-mesh"></div>
     <div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div>
 
-    <!-- Loading Screen -->
     <div id="loading-overlay">
         <div class="relative w-20 h-20"><div class="absolute inset-0 border-4 border-blue-200 rounded-full animate-ping"></div><div class="absolute inset-0 border-4 border-blue-600 rounded-full animate-spin border-t-transparent"></div></div>
         <p class="text-blue-700 font-bold mt-4 text-lg">Work Flow</p>
-        <p class="text-blue-400 text-sm" id="loading-status">กำลังโหลด...</p>
+        <p class="text-blue-400 text-sm" id="loading-status">กำลังโหลดข้อมูลระบบ...</p>
     </div>
 
-    <!-- Inputs -->
     <input type="file" id="imageUploadInput" accept="image/*" style="display: none;">
     <input type="file" id="fileUploadInput" accept=".pdf,.doc,.docx,.zip,.jpg,.png" style="display: none;">
 
-    <!-- Admin Tools -->
     <div id="admin-tools" class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
         <button id="saveButton" onclick="saveToDatabase()" class="hidden bg-green-500 text-white px-6 py-3 rounded-full shadow-2xl hover:bg-green-600 flex items-center gap-2 transition-all transform hover:scale-105 backdrop-blur-md border border-white/40 font-semibold text-sm">
             <i class="fas fa-save"></i> <span>บันทึกการแก้ไข</span>
@@ -133,27 +157,24 @@
         </button>
     </div>
 
-    <!-- Nav -->
     <nav class="sticky top-0 z-40 glass-card !rounded-none !border-t-0 !border-x-0 border-b border-white/40 shadow-sm mx-0 px-0 py-0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-24 items-center">
                 <div class="flex items-center gap-3"><div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg">W</div><span class="text-2xl font-extrabold tracking-tight text-blue-900">Work Flow</span></div>
-                <div class="hidden md:flex space-x-10 items-center">
+                <div class="hidden md:flex space-x-10 items-center text-sm uppercase tracking-wider">
                     <a href="#about" class="text-blue-900 font-semibold hover:text-blue-600 transition">เกี่ยวกับเรา</a>
-                    <a href="#services" class="text-blue-900 font-semibold hover:text-blue-600 transition">บริการ & ราคา</a>
+                    <a href="#services" class="text-blue-900 font-semibold hover:text-blue-600 transition">บริการ</a>
                     <a href="#portfolio" class="text-blue-900 font-semibold hover:text-blue-600 transition">ผลงาน</a>
                     <a href="#booking" class="text-blue-900 font-semibold hover:text-blue-600 transition">จองคิว</a>
-                    <a href="#contact" class="bg-blue-600 text-white px-8 py-3 rounded-full text-sm font-bold hover:bg-blue-700 transition shadow-lg">ติดต่อเรา</a>
+                    <a href="#contact" class="bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition shadow-lg">ติดต่อเรา</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
         
-        <!-- Hero -->
-        <div data-aos="fade-up" class="hero-glass rounded-[2.5rem] p-10 md:p-24 text-center relative overflow-hidden">
+        <section id="hero" data-aos="fade-up" class="hero-glass rounded-[2.5rem] p-10 md:p-24 text-center relative overflow-hidden">
             <div class="relative z-10 flex flex-col items-center">
                 <h1 id="hero-title" class="text-5xl md:text-8xl font-extrabold mb-8 tracking-tight leading-none editable drop-shadow-lg" contenteditable="false">เปลี่ยนงานยาก <br class="md:hidden"> ให้เป็นงานง่าย</h1>
                 <p id="hero-desc" class="text-xl md:text-3xl text-blue-50 max-w-4xl mx-auto mb-12 font-light leading-relaxed editable" contenteditable="false">Work Flow รับจ้างงานฟรีแลนซ์ งานนำเสนอ รายงาน และงานออนไลน์ทั่วไป</p>
@@ -161,7 +182,7 @@
                 <div class="flex flex-col sm:flex-row justify-center gap-6 w-full sm:w-auto">
                     <a href="#booking" class="bg-white text-blue-700 px-12 py-5 rounded-2xl font-extrabold text-lg shadow-xl hover:bg-gray-50 transition border border-white">จองคิวงานทันที</a>
                     <button id="upload-btn-trigger" class="admin-visible-only bg-yellow-400 text-yellow-900 px-12 py-5 rounded-2xl font-bold text-lg shadow-lg hover:bg-yellow-300 transition items-center gap-2 border border-yellow-200">
-                        <i class="fas fa-cloud-upload-alt"></i> อัปโหลดไฟล์
+                        <i class="fas fa-cloud-upload-alt"></i> อัปโหลดไฟล์ (Admin)
                     </button>
                 </div>
                 <div id="public-download-area" class="mt-10 hidden animate-bounce">
@@ -170,47 +191,42 @@
                     </a>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Services Section -->
-        <div id="services" class="col-span-1 md:col-span-3 lg:col-span-4 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- S1 -->
+        <section id="services" class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div onclick="openModal('modal-service-1')" class="glass-card group cursor-pointer p-0 overflow-hidden transform hover:-translate-y-2 transition duration-300" data-aos="fade-up" data-aos-delay="100">
                 <div class="h-64 bg-gray-100 overflow-hidden relative">
-                     <img id="serv-img-1" src="https://placehold.co/600x400/e2e8f0/64748b?text=Presentation" class="w-full h-full object-cover editable-img transition duration-700 group-hover:scale-110">
+                     <img id="serv-img-1" src="https://placehold.co/600x400/e2e8f0/64748b?text=Presentation" class="w-full h-full object-cover editable-img transition duration-700 group-hover:scale-110" alt="บริการทำ PowerPoint และ Canva">
                      <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"><span class="text-white font-bold border border-white/50 px-4 py-2 rounded-full backdrop-blur-sm">ดูรายละเอียด</span></div>
                 </div>
                 <div class="p-6">
                     <h3 id="serv-title-1" class="text-2xl font-bold text-gray-800 mb-2 editable" contenteditable="false">งานนำเสนอ</h3>
-                    <p id="serv-desc-1" class="text-gray-500 text-base editable" contenteditable="false">PowerPoint, Canva, Keynote</p>
+                    <p id="serv-desc-1" class="text-gray-500 text-base editable" contenteditable="false">ออกแบบ PowerPoint, Canva สวยงาม ทันสมัย</p>
                 </div>
             </div>
-            <!-- S2 -->
             <div onclick="openModal('modal-service-2')" class="glass-card group cursor-pointer p-0 overflow-hidden transform hover:-translate-y-2 transition duration-300" data-aos="fade-up" data-aos-delay="200">
                 <div class="h-64 bg-gray-100 overflow-hidden relative">
-                    <img id="serv-img-2" src="https://placehold.co/600x800/f3e8ff/7e22ce?text=Report" class="w-full h-full object-cover editable-img transition duration-700 group-hover:scale-110">
+                    <img id="serv-img-2" src="https://placehold.co/600x800/f3e8ff/7e22ce?text=Report" class="w-full h-full object-cover editable-img transition duration-700 group-hover:scale-110" alt="บริการจัดหน้าเอกสารและรายงาน">
                     <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"><span class="text-white font-bold border border-white/50 px-4 py-2 rounded-full backdrop-blur-sm">ดูรายละเอียด</span></div>
                 </div>
                 <div class="p-6">
                     <h3 id="serv-title-2" class="text-2xl font-bold text-gray-800 mb-2 editable" contenteditable="false">งานเอกสาร</h3>
-                    <p id="serv-desc-2" class="text-gray-500 text-base editable" contenteditable="false">พิมพ์งาน, จัดหน้า, รายงาน</p>
+                    <p id="serv-desc-2" class="text-gray-500 text-base editable" contenteditable="false">พิมพ์งาน, จัดหน้า, รายงานวิทยานิพนธ์</p>
                 </div>
             </div>
-            <!-- S3 -->
             <div onclick="openModal('modal-service-3')" class="glass-card group cursor-pointer p-0 overflow-hidden transform hover:-translate-y-2 transition duration-300" data-aos="fade-up" data-aos-delay="300">
                 <div class="h-64 bg-gray-100 overflow-hidden relative">
-                    <img id="serv-img-3" src="https://placehold.co/600x400/ffedd5/c2410c?text=Admin" class="w-full h-full object-cover editable-img transition duration-700 group-hover:scale-110">
+                    <img id="serv-img-3" src="https://placehold.co/600x400/ffedd5/c2410c?text=Admin" class="w-full h-full object-cover editable-img transition duration-700 group-hover:scale-110" alt="บริการ Admin ดูแลเพจ">
                     <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"><span class="text-white font-bold border border-white/50 px-4 py-2 rounded-full backdrop-blur-sm">ดูรายละเอียด</span></div>
                 </div>
                 <div class="p-6">
                     <h3 id="serv-title-3" class="text-2xl font-bold text-gray-800 mb-2 editable" contenteditable="false">งานทั่วไป</h3>
-                    <p id="serv-desc-3" class="text-gray-500 text-base editable" contenteditable="false">ตอบแชท, ประสานงาน</p>
+                    <p id="serv-desc-3" class="text-gray-500 text-base editable" contenteditable="false">ตอบแชท, ประสานงาน, Admin ดูแลลูกค้า</p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Booking Section (Restored & Enhanced) -->
-        <div id="booking" class="glass-card col-span-1 md:col-span-2 lg:col-span-3 p-8">
+        <section id="booking" class="glass-card p-8">
             <div class="flex items-center justify-between mb-8">
                 <h2 class="text-3xl font-extrabold text-gray-800 flex items-center gap-4">
                     <i class="far fa-calendar-check text-green-500 text-3xl"></i> ตารางคิวงาน
@@ -221,53 +237,34 @@
                 </div>
             </div>
             <p id="booking-desc" class="text-base text-gray-500 mb-8 editable" contenteditable="false">คลิกวันที่ต้องการเพื่อเช็คคิวว่าง (อัปเดต Real-time)</p>
-            
-            <div id="calendar-grid" class="grid grid-cols-7 gap-4 text-center text-base font-medium mb-6">
-                <!-- Calendar generated by JS -->
-            </div>
+            <div id="calendar-grid" class="grid grid-cols-7 gap-4 text-center text-base font-medium mb-6"></div>
             <div id="booking-message" class="mt-6 p-6 rounded-2xl hidden text-lg font-medium text-center shadow-lg border-l-8 transition-all"></div>
-        </div>
+        </section>
 
-        <!-- Contact Section -->
-        <div id="contact" class="glass-card bg-gradient-to-b from-gray-900 to-gray-800 text-white !border-gray-700 shadow-2xl p-8" data-aos="flip-up">
+        <section id="contact" class="glass-card bg-gradient-to-b from-gray-900 to-gray-800 text-white !border-gray-700 shadow-2xl p-8" data-aos="flip-up">
             <h2 class="text-3xl font-extrabold mb-8 text-center">ช่องทางติดต่อเรา</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Facebook -->
-                <a href="https://www.facebook.com/profile.php?id=61583096235430" target="_blank" class="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-blue-600/20 hover:border-blue-500/50 transition border border-white/10 group backdrop-blur-md text-center">
-                    <img id="logo-fb" src="https://placehold.co/80x80/1877F2/ffffff?text=FB" class="w-16 h-16 rounded-full object-cover editable-img border-2 border-white/20 shadow-lg group-hover:scale-110 transition">
-                    <div>
-                        <p class="text-sm text-gray-400">Facebook Page</p>
-                        <p class="font-bold text-xl group-hover:text-blue-400 transition">Work Flow</p>
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <a href="https://www.facebook.com/profile.php?id=61583096235430" target="_blank" class="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-blue-600/20 transition border border-white/10 group">
+                    <img id="logo-fb" src="https://placehold.co/80x80/1877F2/ffffff?text=FB" class="w-16 h-16 rounded-full object-cover editable-img border-2 border-white/20 shadow-lg group-hover:scale-110 transition" alt="Work Flow Facebook">
+                    <div><p class="text-sm text-gray-400">Facebook</p><p class="font-bold text-xl group-hover:text-blue-400">Work Flow</p></div>
                 </a>
-                
-                <!-- TikTok -->
-                <a href="https://www.tiktok.com/@workflow044" target="_blank" class="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-pink-600/20 hover:border-pink-500/50 transition border border-white/10 group backdrop-blur-md text-center">
-                    <img id="logo-tt" src="https://placehold.co/80x80/000000/ffffff?text=TikTok" class="w-16 h-16 rounded-full object-cover editable-img border-2 border-white/20 shadow-lg group-hover:scale-110 transition">
-                    <div>
-                        <p class="text-sm text-gray-400">TikTok Channel</p>
-                        <p class="font-bold text-xl group-hover:text-pink-400 transition">@workflow044</p>
-                    </div>
+                <a href="https://www.tiktok.com/@workflow044" target="_blank" class="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-pink-600/20 transition border border-white/10 group">
+                    <img id="logo-tt" src="https://placehold.co/80x80/000000/ffffff?text=TikTok" class="w-16 h-16 rounded-full object-cover editable-img border-2 border-white/20 shadow-lg group-hover:scale-110 transition" alt="Work Flow TikTok">
+                    <div><p class="text-sm text-gray-400">TikTok</p><p class="font-bold text-xl group-hover:text-pink-400">@workflow044</p></div>
                 </a>
-
-                <!-- Phone -->
-                <a href="tel:0982165174" class="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-green-600/20 hover:border-green-500/50 transition border border-white/10 group backdrop-blur-md text-center">
-                    <img id="logo-ph" src="https://placehold.co/80x80/22c55e/ffffff?text=Tel" class="w-16 h-16 rounded-full object-cover editable-img border-2 border-white/20 shadow-lg group-hover:scale-110 transition">
-                    <div>
-                        <p class="text-sm text-gray-400">เบอร์โทรศัพท์</p>
-                        <p class="font-bold text-xl group-hover:text-green-400 transition">098-216-5174</p>
-                    </div>
+                <a href="tel:0982165174" class="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-2xl hover:bg-green-600/20 transition border border-white/10 group">
+                    <img id="logo-ph" src="https://placehold.co/80x80/22c55e/ffffff?text=Tel" class="w-16 h-16 rounded-full object-cover editable-img border-2 border-white/20 shadow-lg group-hover:scale-110 transition" alt="ติดต่อโทรศัพท์">
+                    <div><p class="text-sm text-gray-400">โทรศัพท์</p><p class="font-bold text-xl group-hover:text-green-400">098-216-5174</p></div>
                 </a>
             </div>
-        </div>
+        </section>
     </main>
 
     <!-- MODALS -->
-    <div id="modal-service-1" class="modal-backdrop" onclick="closeModal('modal-service-1')"><div class="modal-content" onclick="event.stopPropagation()"><button onclick="closeModal('modal-service-1')" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-2xl"><i class="fas fa-times"></i></button><div class="grid md:grid-cols-2 gap-8"><div><img id="modal-img-1" src="https://placehold.co/600x800/e2e8f0/64748b?text=Presentation+Details" class="w-full rounded-xl shadow-md editable-img"></div><div><h2 id="modal-title-1" class="text-3xl font-bold text-blue-900 mb-4 editable" contenteditable="false">รายละเอียด: งานนำเสนอ</h2><p id="modal-desc-1" class="text-gray-600 mb-6 leading-relaxed editable" contenteditable="false">เรารับออกแบบ Presentation ทุกรูปแบบ...</p><div class="bg-blue-50 p-6 rounded-xl border border-blue-100"><h3 class="font-bold text-blue-800 mb-3">อัตราค่าบริการ</h3><ul id="modal-price-1" class="space-y-2 text-sm text-gray-700 editable" contenteditable="false"><li>• ออกแบบ Canva: เริ่มต้น 500 บาท</li></ul></div></div></div></div></div>
-    <div id="modal-service-2" class="modal-backdrop" onclick="closeModal('modal-service-2')"><div class="modal-content" onclick="event.stopPropagation()"><button onclick="closeModal('modal-service-2')" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-2xl"><i class="fas fa-times"></i></button><div class="grid md:grid-cols-2 gap-8"><div><img id="modal-img-2" src="https://placehold.co/600x800/f3e8ff/7e22ce?text=Document+Details" class="w-full rounded-xl shadow-md editable-img"></div><div><h2 id="modal-title-2" class="text-3xl font-bold text-blue-900 mb-4 editable" contenteditable="false">รายละเอียด: งานเอกสาร</h2><p id="modal-desc-2" class="text-gray-600 mb-6 leading-relaxed editable" contenteditable="false">บริการพิมพ์งาน จัดหน้าเอกสาร...</p><div class="bg-purple-50 p-6 rounded-xl border border-purple-100"><h3 class="font-bold text-purple-800 mb-3">อัตราค่าบริการ</h3><ul id="modal-price-2" class="space-y-2 text-sm text-gray-700 editable" contenteditable="false"><li>• พิมพ์งาน: 15-20 บาท/หน้า</li></ul></div></div></div></div></div>
-    <div id="modal-service-3" class="modal-backdrop" onclick="closeModal('modal-service-3')"><div class="modal-content" onclick="event.stopPropagation()"><button onclick="closeModal('modal-service-3')" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-2xl"><i class="fas fa-times"></i></button><div class="grid md:grid-cols-2 gap-8"><div><img id="modal-img-3" src="https://placehold.co/600x800/ffedd5/c2410c?text=Admin+Details" class="w-full rounded-xl shadow-md editable-img"></div><div><h2 id="modal-title-3" class="text-3xl font-bold text-blue-900 mb-4 editable" contenteditable="false">รายละเอียด: งานทั่วไป</h2><p id="modal-desc-3" class="text-gray-600 mb-6 leading-relaxed editable" contenteditable="false">บริการ Admin ดูแลเพจ ตอบแชท...</p><div class="bg-orange-50 p-6 rounded-xl border border-orange-100"><h3 class="font-bold text-orange-800 mb-3">อัตราค่าบริการ</h3><ul id="modal-price-3" class="space-y-2 text-sm text-gray-700 editable" contenteditable="false"><li>• ดูแลเพจ: เริ่มต้น 4,500 บาท</li></ul></div></div></div></div></div>
+    <div id="modal-service-1" class="modal-backdrop" onclick="closeModal('modal-service-1')"><div class="modal-content" onclick="event.stopPropagation()"><button onclick="closeModal('modal-service-1')" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-2xl"><i class="fas fa-times"></i></button><div class="grid md:grid-cols-2 gap-8"><div><img id="modal-img-1" src="https://placehold.co/600x800/e2e8f0/64748b?text=Presentation+Details" class="w-full rounded-xl shadow-md editable-img"></div><div><h2 id="modal-title-1" class="text-3xl font-bold text-blue-900 mb-4 editable" contenteditable="false">รายละเอียด: งานนำเสนอ</h2><p id="modal-desc-1" class="text-gray-600 mb-6 leading-relaxed editable" contenteditable="false">รับออกแบบ Presentation สำหรับนักศึกษาและธุรกิจ...</p><div class="bg-blue-50 p-6 rounded-xl border border-blue-100"><h3 class="font-bold text-blue-800 mb-3">อัตราค่าบริการ</h3><ul id="modal-price-1" class="space-y-2 text-sm text-gray-700 editable" contenteditable="false"><li>• เริ่มต้น 500 บาท</li></ul></div></div></div></div></div>
+    <div id="modal-service-2" class="modal-backdrop" onclick="closeModal('modal-service-2')"><div class="modal-content" onclick="event.stopPropagation()"><button onclick="closeModal('modal-service-2')" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-2xl"><i class="fas fa-times"></i></button><div class="grid md:grid-cols-2 gap-8"><div><img id="modal-img-2" src="https://placehold.co/600x800/f3e8ff/7e22ce?text=Document+Details" class="w-full rounded-xl shadow-md editable-img"></div><div><h2 id="modal-title-2" class="text-3xl font-bold text-blue-900 mb-4 editable" contenteditable="false">รายละเอียด: งานเอกสาร</h2><p id="modal-desc-2" class="text-gray-600 mb-6 leading-relaxed editable" contenteditable="false">รับพิมพ์งานไทย-อังกฤษ จัดหน้าบทความ...</p><div class="bg-purple-50 p-6 rounded-xl border border-purple-100"><h3 class="font-bold text-purple-800 mb-3">อัตราค่าบริการ</h3><ul id="modal-price-2" class="space-y-2 text-sm text-gray-700 editable" contenteditable="false"><li>• หน้าละ 15-20 บาท</li></ul></div></div></div></div></div>
+    <div id="modal-service-3" class="modal-backdrop" onclick="closeModal('modal-service-3')"><div class="modal-content" onclick="event.stopPropagation()"><button onclick="closeModal('modal-service-3')" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-2xl"><i class="fas fa-times"></i></button><div class="grid md:grid-cols-2 gap-8"><div><img id="modal-img-3" src="https://placehold.co/600x800/ffedd5/c2410c?text=Admin+Details" class="w-full rounded-xl shadow-md editable-img"></div><div><h2 id="modal-title-3" class="text-3xl font-bold text-blue-900 mb-4 editable" contenteditable="false">รายละเอียด: งานทั่วไป</h2><p id="modal-desc-3" class="text-gray-600 mb-6 leading-relaxed editable" contenteditable="false">รับเป็นแอดมินดูแลเพจ ตอบคำถามเบื้องต้น...</p><div class="bg-orange-50 p-6 rounded-xl border border-orange-100"><h3 class="font-bold text-orange-800 mb-3">อัตราค่าบริการ</h3><ul id="modal-price-3" class="space-y-2 text-sm text-gray-700 editable" contenteditable="false"><li>• เริ่มต้นวันละ 250 บาท</li></ul></div></div></div></div></div>
 
-    <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script> AOS.init({ duration: 800, once: true }); </script>
 
@@ -287,35 +284,38 @@
         };
 
         let app;
-        const appName = "WorkFlow-Production-Final-v6";
+        const appName = "WorkFlow-Production-v6";
         try {
             if (getApps().some(a => a.name === appName)) app = getApp(appName);
             else app = initializeApp(firebaseConfig, appName);
-        } catch (e) { document.getElementById('loading-status').innerText = "Init Error"; }
+        } catch (e) { console.error(e); }
 
         const auth = getAuth(app);
         const db = getFirestore(app);
         let currentUser = null;
         let isEditMode = false;
-        let dbData = { bookedDates: [5, 12] }; 
+        let dbData = { bookedDates: [] }; 
         const docRef = doc(db, 'website_content', 'main_data');
 
-        signInAnonymously(auth).catch(e => console.error(e));
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                onSnapshot(docRef, (snapshot) => {
-                    document.getElementById('loading-overlay').style.display = 'none';
-                    if (snapshot.exists()) {
-                        dbData = snapshot.data();
-                        renderContent(dbData);
-                    } else { 
-                        saveToDatabase(true); 
-                        renderContent(dbData); // Force render initial state
-                    }
-                });
-            }
+        signInAnonymously(auth).then(() => {
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    currentUser = user;
+                    onSnapshot(docRef, (snapshot) => {
+                        document.getElementById('loading-overlay').style.display = 'none';
+                        if (snapshot.exists()) {
+                            dbData = snapshot.data();
+                            renderContent(dbData);
+                        } else {
+                            renderCalendar([]); // Render empty calendar if no data
+                        }
+                    }, (err) => {
+                        console.error("Firestore Error:", err);
+                        document.getElementById('loading-overlay').style.display = 'none';
+                        renderCalendar([]);
+                    });
+                }
+            });
         });
 
         window.openModal = (id) => document.getElementById(id).classList.add('show');
@@ -330,11 +330,9 @@
             const dlArea = document.getElementById('public-download-area');
             const dlBtn = document.getElementById('download-btn');
             if (data.files && data.files['company_profile']) {
-                dlBtn.href = data.files['company_profile'];
-                dlArea.classList.remove('hidden'); 
+                dlBtn.href = data.files['company_profile']; dlArea.classList.remove('hidden'); 
             } else { dlArea.classList.add('hidden'); }
             
-            // Ensure booking always renders
             renderCalendar(data.bookedDates || []);
         }
 
@@ -374,7 +372,7 @@
                     msg.innerHTML = `<i class="fas fa-times-circle"></i> วันที่ ${day} คิวเต็มแล้วครับ`;
                 } else {
                     msg.classList.add('bg-green-50', 'text-green-700', 'border-green-500');
-                    msg.innerHTML = `<i class="fas fa-check-circle"></i> วันที่ ${day} ว่าง! <a href="https://www.facebook.com/profile.php?id=61583096235430" target="_blank" class="underline font-bold hover:text-green-900">ทักจองเลย</a>`;
+                    msg.innerHTML = `<i class="fas fa-check-circle"></i> วันที่ ${day} ว่าง! <a href="https://www.facebook.com/profile.php?id=61583096235430" target="_blank" class="underline font-bold">จองผ่าน FB เลย</a>`;
                 }
             }
             msg.classList.remove('hidden');
@@ -392,11 +390,10 @@
 
             const newData = { text: textData, images: imageData, files: fileData, bookedDates: dbData.bookedDates };
             try {
-                if (new Blob([JSON.stringify(newData)]).size > 950000) return alert("ข้อมูลใหญ่เกิน 1MB");
                 await setDoc(docRef, newData);
-                alert("บันทึกข้อมูลสำเร็จ! ✅");
+                alert("บันทึกเรียบร้อย!");
                 if(isEditMode) toggleEditMode();
-            } catch(e) { alert("เกิดข้อผิดพลาด: " + e.message); }
+            } catch(e) { alert("Error: " + e.message); }
         };
 
         window.toggleEditMode = () => {
@@ -405,19 +402,15 @@
             const body = document.body;
 
             if (!isEditMode) {
-                if (prompt("ใส่รหัส Admin:") !== "admin") return alert("รหัสผิดพลาด");
+                if (prompt("รหัส Admin:") !== "admin") return alert("รหัสผิด");
                 isEditMode = true;
                 body.classList.add('admin-mode');
-                
                 document.querySelectorAll('.editable').forEach(el => { el.contentEditable = "true"; el.classList.add('editable-active'); });
                 document.querySelectorAll('.editable-img').forEach(el => {
                     el.classList.add('editable-img-active');
                     el.onclick = function() { window.currentImageElement = this; document.getElementById('imageUploadInput').click(); };
                 });
-                document.getElementById('upload-btn-trigger').onclick = () => {
-                    if(confirm("เปลี่ยนไฟล์ PDF หรือรูปใหม่?")) document.getElementById('fileUploadInput').click();
-                };
-
+                document.getElementById('upload-btn-trigger').onclick = () => document.getElementById('fileUploadInput').click();
                 btn.innerHTML = '<i class="fas fa-times"></i> <span>ออก</span>';
                 btn.classList.replace('bg-gray-900/90', 'bg-red-600/90');
                 saveBtn.classList.remove('hidden');
@@ -446,7 +439,7 @@
                 else if (type === 'file') {
                     document.getElementById('download-btn').href = evt.target.result;
                     document.getElementById('public-download-area').classList.remove('hidden');
-                    alert("อัปโหลดแล้ว กดบันทึกเพื่อยืนยัน");
+                    alert("อัปโหลดแล้ว อย่าลืมกดบันทึก");
                 }
             };
             reader.readAsDataURL(file);

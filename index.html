@@ -354,6 +354,36 @@
             border-color: #3b82f6;
         }
 
+        /* === CONTACT SECTION === */
+        .contact-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            min-width: 280px;
+            justify-content: center;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(96, 165, 250, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-icon {
+            font-size: 30px;
+        }
+
         /* === ADMIN EDITABLE STYLES === */
         [contenteditable="true"] {
             outline: 2px dashed rgba(96, 165, 250, 0.5);
@@ -1306,6 +1336,29 @@
                 </div>
             </div>
             <!-- Note: Public booking list hidden as requested, moved to admin dashboard -->
+        </div>
+    </section>
+    
+    <!-- CONTACT SECTION (NEW) -->
+    <section class="contact-section" id="contact" style="padding: 60px 0 100px; position: relative; z-index: 10;">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">📞 ติดต่อเรา</h2>
+            </div>
+            
+            <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                <!-- Facebook -->
+                <a href="https://web.facebook.com/profile.php?id=61583096235430" target="_blank" class="contact-card">
+                    <i class="fab fa-facebook contact-icon" style="color: #1877f2;"></i>
+                    <span style="font-size: 18px; font-weight: 600;">Work Flow FB</span>
+                </a>
+
+                <!-- Phone -->
+                <a href="tel:0842913601" class="contact-card">
+                    <i class="fas fa-phone contact-icon" style="color: #22c55e;"></i>
+                    <span style="font-size: 18px; font-weight: 600;">084-291-3601</span>
+                </a>
+            </div>
         </div>
     </section>
 

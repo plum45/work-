@@ -615,6 +615,43 @@
             box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
         }
 
+        /* === AI FEATURES STYLES === */
+        .btn-ai-magic {
+            background: linear-gradient(135deg, #8b5cf6, #d946ef);
+            border: none;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-ai-magic:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(139, 92, 246, 0.5);
+        }
+
+        .ai-input-container {
+            margin-top: 15px;
+        }
+
+        .ai-input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            margin-bottom: 10px;
+            font-family: 'Prompt', sans-serif;
+        }
+
         /* === BOOKING SECTION === */
         .booking-section {
             padding: 80px 0;
@@ -1249,6 +1286,26 @@
         </div>
     </div>
 
+    <!-- AI WRITER MODAL -->
+    <div class="modal-overlay" id="aiModal" onclick="if(event.target === this) closeAiModal()">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeAiModal()">&times;</button>
+            <div class="modal-icon">
+                <i class="fas fa-magic" style="background: linear-gradient(135deg, #8b5cf6, #d946ef); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+            </div>
+            <h3 class="modal-title">AI ผู้ช่วยเขียนบรีฟ</h3>
+            <p class="modal-desc">
+                พิมพ์รายละเอียดสั้นๆ หรือคำสำคัญเกี่ยวกับงานของคุณ แล้วให้ AI ช่วยเรียบเรียงเป็นข้อความที่สมบูรณ์ให้
+            </p>
+            <div class="ai-input-container">
+                <textarea id="aiPromptInput" class="ai-input" rows="3" placeholder="เช่น: ทำสไลด์ประวัติบริษัท 10 หน้า ตีมสีฟ้า ดูทันสมัย"></textarea>
+            </div>
+            <button id="btnGenerateAi" class="modal-action" onclick="generateAiText()">
+                <i class="fas fa-sparkles"></i> สร้างข้อความ
+            </button>
+        </div>
+    </div>
+
     <!-- BOOKING SECTION -->
     <section class="booking-section" id="booking">
         <div class="container">
@@ -1322,7 +1379,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">หมายเหตุ</label>
+                            <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+                                หมายเหตุ
+                                <button type="button" class="btn-ai-magic" onclick="openAiModal()">
+                                    <i class="fas fa-magic"></i> ให้ AI ช่วยเขียนบรีฟ
+                                </button>
+                            </label>
                             <textarea class="form-textarea" id="notes" placeholder="บรรยายรายละเอียด" rows="3"></textarea>
                         </div>
 
@@ -1363,6 +1425,8 @@
     </section>
 
     <script>
+        const apiKey = ""; // API Key provided by environment
+
         // Generate stars
         function generateStars() {
             const starsContainer = document.getElementById('stars');
@@ -1376,6 +1440,93 @@
             }
         }
         generateStars();
+
+        // === GEMINI API INTEGRATION ===
+        async function callGemini(prompt) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }]
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error('API Error');
+
+                const data = await response.json();
+                return data.candidates?.[0]?.content?.parts?.[0]?.text || "ไม่สามารถสร้างข้อความได้ในขณะนี้";
+            } catch (error) {
+                console.error("Gemini API Error:", error);
+                return "เกิดข้อผิดพลาดในการเชื่อมต่อกับ AI";
+            }
+        }
+
+        // === AI NOTE WRITER (USER) ===
+        function openAiModal() {
+            document.getElementById('aiModal').classList.add('active');
+        }
+
+        function closeAiModal() {
+            document.getElementById('aiModal').classList.remove('active');
+        }
+
+        async function generateAiText() {
+            const input = document.getElementById('aiPromptInput').value;
+            if (!input) return;
+
+            const btn = document.getElementById('btnGenerateAi');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading-spinner"></span> กำลังคิด...';
+
+            const prompt = `You are a helpful assistant for a freelance booking platform. The user wants to book a service.
+            User Input: ${input}
+            Task: Write a polite, professional, and detailed project description in Thai suitable for a freelancer to understand requirements. Keep it under 4 sentences.`;
+
+            const result = await callGemini(prompt);
+            
+            document.getElementById('notes').value = result;
+            closeAiModal();
+            
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+            
+            // Highlight the note area
+            const noteArea = document.getElementById('notes');
+            noteArea.style.borderColor = '#d946ef';
+            noteArea.style.boxShadow = '0 0 15px rgba(217, 70, 239, 0.3)';
+            setTimeout(() => {
+                noteArea.style.borderColor = '';
+                noteArea.style.boxShadow = '';
+            }, 2000);
+        }
+
+        // === AI JOB ANALYSIS (ADMIN) ===
+        async function analyzeJob(bookingId, notes, service) {
+            if (!notes) {
+                alert("ไม่มีรายละเอียดงานให้วิเคราะห์");
+                return;
+            }
+
+            const btn = document.getElementById(`btn-analyze-${bookingId}`);
+            if(btn) btn.innerHTML = '<span class="loading-spinner" style="width:10px; height:10px;"></span>';
+
+            const prompt = `Analyze this freelance job request: Service: ${service}, Details: ${notes}.
+            Output a short summary in Thai following this format:
+            ความยาก: [Easy/Medium/Hard]
+            เวลาที่ใช้: [Hours]
+            คำแนะนำ: [Short advice for freelancer]`;
+
+            const result = await callGemini(prompt);
+            
+            alert(`📊 ผลการวิเคราะห์จาก AI:\n\n${result}`);
+            
+            if(btn) btn.innerHTML = '✨ AI ประเมิน';
+        }
 
         // === MODAL LOGIC ===
         function handleCardClick(title, price, iconClass, description) {
@@ -1630,6 +1781,9 @@
                             `<button class="btn-small" onclick="confirmBooking('${booking.id}')" style="flex:1; padding:4px;">ยืนยัน</button>` : ''}
                         <button class="btn-small btn-delete" onclick="deleteBooking('${booking.id}')" style="flex:1; padding:4px;">ลบ</button>
                     </div>
+                    <button id="btn-analyze-${booking.id}" class="btn-small" style="width:100%; margin-top:5px; background: rgba(139, 92, 246, 0.2); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.4);" onclick="analyzeJob('${booking.id}', '${booking.notes || ''}', '${booking.service_name}')">
+                        ✨ AI ประเมิน
+                    </button>
                 </div>
             `).join('');
         }

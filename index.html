@@ -18,6 +18,7 @@
             width: 100%;
             margin: 0;
             padding: 0;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -97,26 +98,6 @@
             50% { opacity: 1; }
         }
 
-        /* === GLASS MORPHISM === */
-        .glass {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
-        }
-
-        .glass-hover {
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .glass-hover:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px rgba(59, 130, 246, 0.3);
-        }
-
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -145,6 +126,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            cursor: pointer; /* Change cursor to indicate clickability */
+            user-select: none;
         }
 
         nav {
@@ -164,98 +147,30 @@
             color: white;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            color: white;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'Prompt', sans-serif;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
-        }
-
-        /* === BENTO GRID HERO === */
+        /* === HERO SECTION (Separated) === */
         .hero-section {
-            padding: 60px 0 100px;
+            padding: 80px 0 60px;
             position: relative;
             z-index: 10;
+            text-align: center;
         }
 
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 24px;
-            margin-bottom: 40px;
-        }
-
-        .bento-item {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
-            padding: 40px 30px;
-            position: relative;
-            overflow: hidden;
-            animation: slideUp 0.8s ease backwards;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .bento-item:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px rgba(59, 130, 246, 0.3);
-        }
-
-        .bento-item.large {
-            grid-column: span 2;
-            grid-row: span 2;
-        }
-
-        .bento-item.wide {
-            grid-column: span 2;
-        }
-
-        .bento-item:nth-child(1) { animation-delay: 0.1s; }
-        .bento-item:nth-child(2) { animation-delay: 0.2s; }
-        .bento-item:nth-child(3) { animation-delay: 0.3s; }
-        .bento-item:nth-child(4) { animation-delay: 0.4s; }
-        .bento-item:nth-child(5) { animation-delay: 0.5s; }
-        .bento-item:nth-child(6) { animation-delay: 0.6s; }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .bento-title {
-            font-size: clamp(2rem, 5vw, 3.5rem);
+        .hero-title {
+            font-size: clamp(3rem, 6vw, 4.5rem);
             font-weight: 800;
             color: white;
-            line-height: 1.2;
-            margin: 0 0 15px;
+            line-height: 1.1;
+            margin-bottom: 20px;
             letter-spacing: -1px;
+            animation: slideDown 0.8s ease backwards;
         }
 
-        .bento-subtitle {
+        .hero-subtitle {
             color: rgba(255, 255, 255, 0.8);
-            font-size: 18px;
-            font-weight: 500;
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto 50px;
+            animation: slideDown 0.8s ease 0.2s backwards;
         }
 
         .highlight {
@@ -265,58 +180,53 @@
             background-clip: text;
         }
 
-        .service-item {
-            text-align: center;
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+            animation: slideUp 0.8s ease 0.4s backwards;
         }
 
-        .service-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, #60a5fa, #22d3ee);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .service-name {
-            color: white;
-            font-weight: 700;
-            font-size: 18px;
-            margin-bottom: 8px;
-        }
-
-        .service-price {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 30px 50px;
         }
 
         .stat-box {
             text-align: center;
+            min-width: 120px;
         }
 
         .stat-number {
-            font-size: 48px;
+            font-size: 36px;
             font-weight: 800;
             background: linear-gradient(135deg, #60a5fa, #22d3ee);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .stat-label {
             color: rgba(255, 255, 255, 0.8);
-            font-size: 16px;
+            font-size: 14px;
         }
 
-        /* === BOOKING SECTION === */
-        .booking-section {
-            padding: 80px 0;
+        /* === SERVICES SECTION (Separated) === */
+        .services-section {
+            padding: 60px 0 100px;
             position: relative;
             z-index: 10;
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
         }
 
         .section-title {
@@ -324,6 +234,362 @@
             font-weight: 800;
             color: white;
             margin: 0;
+            display: inline-block;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #22d3ee);
+            border-radius: 2px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+        
+        /* Overlay for custom bg images to ensure text readability */
+        .service-card.has-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.7);
+            z-index: 0;
+        }
+        
+        .service-card > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #60a5fa, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .service-name {
+            color: white;
+            font-weight: 700;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .service-price {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .service-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 50px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover .service-btn {
+            background: #3b82f6;
+            border-color: #3b82f6;
+        }
+
+        /* === ADMIN EDITABLE STYLES === */
+        [contenteditable="true"] {
+            outline: 2px dashed rgba(96, 165, 250, 0.5);
+            outline-offset: 4px;
+            cursor: text;
+            min-width: 20px;
+        }
+        
+        [contenteditable="true"]:focus {
+            outline: 2px solid #3b82f6;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* === DASHBOARD PANEL === */
+        .admin-dashboard {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 400px;
+            max-height: 80vh;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            z-index: 9999;
+            color: white;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .admin-dashboard.active {
+            display: flex;
+            animation: slideInRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .dashboard-header {
+            padding: 20px;
+            background: linear-gradient(90deg, #1e3a8a, #0f172a);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-title {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dashboard-content {
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .dashboard-stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .dash-stat {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .dash-val { font-size: 24px; font-weight: 800; color: #60a5fa; }
+        .dash-lbl { font-size: 12px; color: rgba(255, 255, 255, 0.6); }
+
+        .dashboard-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-dash {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        
+        .btn-dash.save { background: #22c55e; border-color: #22c55e; }
+        .btn-dash.logout { background: #ef4444; border-color: #ef4444; }
+
+        .admin-toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(34, 197, 94, 0.9);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            z-index: 10000;
+            display: none;
+            animation: fadeInDown 0.3s ease;
+        }
+        
+        @keyframes fadeInDown {
+            from { transform: translate(-50%, -20px); opacity: 0; }
+            to { transform: translate(-50%, 0); opacity: 1; }
+        }
+
+        /* === MODAL === */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            width: 90%;
+            max-width: 500px;
+            padding: 40px;
+            position: relative;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: white;
+        }
+
+        .modal-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #60a5fa, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .modal-title {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .modal-price {
+            color: #60a5fa;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-desc {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .modal-action {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Prompt', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        /* === BOOKING SECTION === */
+        .booking-section {
+            padding: 80px 0;
+            position: relative;
+            z-index: 10;
         }
 
         .booking-container {
@@ -412,6 +678,7 @@
             font-size: 14px;
             font-weight: 500;
             transition: all 0.3s ease;
+            position: relative;
         }
 
         .calendar-day:hover:not(.disabled) {
@@ -424,6 +691,26 @@
             background: linear-gradient(135deg, #3b82f6, #2563eb);
             border-color: rgba(96, 165, 250, 1);
             color: white;
+        }
+
+        .calendar-day.booked {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+        }
+        
+        .calendar-day.booked::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            width: 4px;
+            height: 4px;
+            background: #ef4444;
+            border-radius: 50%;
+        }
+
+        .calendar-day.booked:hover:not(.disabled) {
+            background: rgba(239, 68, 68, 0.3);
         }
 
         .calendar-day.disabled {
@@ -522,6 +809,8 @@
             border-radius: 24px;
             padding: 30px;
             margin-top: 30px;
+            height: 400px;
+            overflow-y: auto;
         }
 
         .booking-title {
@@ -701,16 +990,45 @@
             display: block;
         }
 
+        /* Animations */
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
         /* === RESPONSIVE === */
         @media (max-width: 768px) {
-            .bento-grid {
-                grid-template-columns: 1fr;
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .stats-container {
+                gap: 20px;
             }
 
-            .bento-item.large,
-            .bento-item.wide {
-                grid-column: span 1;
-                grid-row: span 1;
+            .stat-box {
+                min-width: 100px;
+            }
+
+            .stat-number {
+                font-size: 28px;
             }
 
             .booking-container {
@@ -721,13 +1039,12 @@
                 gap: 15px;
                 font-size: 14px;
             }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .bento-title {
-                font-size: 2rem;
+            
+            .admin-dashboard {
+                width: 100%;
+                bottom: 0;
+                right: 0;
+                border-radius: 20px 20px 0 0;
             }
         }
     </style>
@@ -741,11 +1058,16 @@
         <div id="stars"></div>
     </div>
 
+    <!-- ADMIN TOAST NOTIFICATION -->
+    <div id="adminToast" class="admin-toast">
+        บันทึกการแก้ไขเรียบร้อยแล้ว
+    </div>
+
     <!-- HEADER -->
     <header>
         <div class="container">
             <div class="header-content">
-                <div class="logo">
+                <div class="logo" id="websiteLogo" title="Click 4 times to toggle Admin Mode">
                     <i class="fas fa-zap"></i>
                     <span>Work Flow</span>
                 </div>
@@ -758,75 +1080,144 @@
         </div>
     </header>
 
-    <!-- HERO SECTION WITH BENTO GRID -->
+    <!-- ADMIN DASHBOARD PANEL -->
+    <div id="adminDashboard" class="admin-dashboard">
+        <div class="dashboard-header">
+            <div class="dashboard-title"><i class="fas fa-chart-pie"></i> แผงควบคุม</div>
+            <button onclick="toggleAdminMode()" style="background:none; border:none; color:white; cursor:pointer;"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="dashboard-content">
+            <div class="dashboard-controls">
+                <button class="btn-dash save" onclick="saveContent()"><i class="fas fa-save"></i> บันทึกหน้าเว็บ</button>
+                <button class="btn-dash logout" onclick="toggleAdminMode()"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</button>
+            </div>
+            
+            <div class="dashboard-stat-grid">
+                <div class="dash-stat">
+                    <div class="dash-val" id="dashTotal">0</div>
+                    <div class="dash-lbl">คิวทั้งหมด</div>
+                </div>
+                <div class="dash-stat">
+                    <div class="dash-val" id="dashPending" style="color:#fbbf24">0</div>
+                    <div class="dash-lbl">รออนุมัติ</div>
+                </div>
+            </div>
+
+            <h4 style="margin: 0 0 10px; color:rgba(255,255,255,0.7)">รายการจองล่าสุด</h4>
+            <div id="dashboardBookingList" style="max-height: 300px; overflow-y: auto;">
+                <!-- Booking items will be injected here -->
+            </div>
+            
+            <div style="margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.5); text-align: center;">
+                * ดับเบิ้ลคลิกที่กล่องบริการเพื่อเปลี่ยนรูปพื้นหลัง
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO SECTION (SEPARATED) -->
     <section class="hero-section">
         <div class="container">
-            <div class="bento-grid">
-                <!-- Main Title -->
-                <div class="bento-item large">
-                    <h1 class="bento-title">
-                        ยกระดับธุรกิจ<br>
-                        <span class="highlight">Work Flow</span>
-                    </h1>
-                    <p class="bento-subtitle">บริการฟรีแลนซ์ระดับพรีเมียม</p>
+            <h1 class="hero-title editable" data-key="hero-title">
+                ยกระดับธุรกิจ<br>
+                <span class="highlight">Work Flow</span>
+            </h1>
+            <p class="hero-subtitle editable" data-key="hero-subtitle">บริการฟรีแลนซ์ระดับพรีเมียม ตอบโจทย์ทุกความต้องการทางธุรกิจของคุณ ด้วยทีมงานมืออาชีพและระบบจัดการที่มีประสิทธิภาพ</p>
+            
+            <div class="stats-container glass-panel">
+                <div class="stat-box">
+                    <div class="stat-number editable" data-key="stat-1">500+</div>
+                    <div class="stat-label editable" data-key="stat-1-lbl">โปรเจกต์</div>
                 </div>
-
-                <!-- Service 1 -->
-                <div class="bento-item service-item">
-                    <div class="service-icon">
-                        <i class="fas fa-file-powerpoint"></i>
-                    </div>
-                    <div class="service-name">PowerPoint</div>
-                    <div class="service-price">฿500 - ฿5,000</div>
+                <div class="stat-box">
+                    <div class="stat-number editable" data-key="stat-2">98%</div>
+                    <div class="stat-label editable" data-key="stat-2-lbl">พึงพอใจ</div>
                 </div>
-
-                <!-- Service 2 -->
-                <div class="bento-item service-item">
-                    <div class="service-icon">
-                        <i class="fas fa-palette"></i>
-                    </div>
-                    <div class="service-name">Canva Design</div>
-                    <div class="service-price">฿300 - ฿3,000</div>
+                <div class="stat-box">
+                    <div class="stat-number editable" data-key="stat-3">50+</div>
+                    <div class="stat-label editable" data-key="stat-3-lbl">ทีมงาน</div>
                 </div>
-
-                <!-- Stats Row -->
-                <div class="bento-item wide">
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-                        <div class="stat-box">
-                            <div class="stat-number">500+</div>
-                            <div class="stat-label">โปรเจกต์</div>
-                        </div>
-                        <div class="stat-box">
-                            <div class="stat-number">98%</div>
-                            <div class="stat-label">พึงพอใจ</div>
-                        </div>
-                        <div class="stat-box">
-                            <div class="stat-number">50+</div>
-                            <div class="stat-label">ทีม</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Service 3 -->
-                <div class="bento-item service-item">
-                    <div class="service-icon">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
-                    <div class="service-name">เอกสาร</div>
-                    <div class="service-price">฿400 - ฿4,000</div>
-                </div>
-
-                <!-- Service 4 -->
-                <div class="bento-item service-item">
-                    <div class="service-icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                    <div class="service-name">Admin Support</div>
-                    <div class="service-price">฿200 - ฿2,000</div>
+                <div class="stat-box">
+                    <div class="stat-number editable" data-key="stat-4">24/7</div>
+                    <div class="stat-label editable" data-key="stat-4-lbl">ซัพพอร์ต</div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- SERVICES SECTION (SEPARATED) -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title editable" data-key="service-title">บริการของเรา</h2>
+            </div>
+            
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-card editable-card" id="card1"
+                     onclick="handleCardClick('PowerPoint Design', '฿500 - ฿5,000', 'fa-file-powerpoint', 'ออกแบบ Slide นำเสนออย่างมืออาชีพ ทันสมัย เข้าใจง่าย เหมาะสำหรับ Pitch Deck, การเรียนการสอน, หรือการประชุมธุรกิจที่ต้องการความน่าเชื่อถือ')"
+                     ondblclick="changeCardImage('card1')">
+                    <div class="service-icon">
+                        <i class="fas fa-file-powerpoint"></i>
+                    </div>
+                    <div class="service-name editable" data-key="srv-1-name">PowerPoint</div>
+                    <div class="service-price editable" data-key="srv-1-price">฿500 - ฿5,000</div>
+                    <span class="service-btn">ดูรายละเอียด</span>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-card editable-card" id="card2"
+                     onclick="handleCardClick('Canva Design', '฿300 - ฿3,000', 'fa-palette', 'ออกแบบกราฟิกสำหรับ Social Media, Poster, Infographic, และสื่อโฆษณาต่างๆ ด้วย Canva สวยงาม รวดเร็ว และสามารถส่งไฟล์ให้ลูกค้าแก้ไขต่อได้ง่าย')"
+                     ondblclick="changeCardImage('card2')">
+                    <div class="service-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <div class="service-name editable" data-key="srv-2-name">Canva Design</div>
+                    <div class="service-price editable" data-key="srv-2-price">฿300 - ฿3,000</div>
+                    <span class="service-btn">ดูรายละเอียด</span>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="service-card editable-card" id="card3"
+                     onclick="handleCardClick('เอกสารวิชาการ', '฿400 - ฿4,000', 'fa-file-alt', 'บริการจัดรูปแบบเอกสาร รายงาน วิทยานิพนธ์ พิมพ์งาน และคีย์ข้อมูลต่างๆ ให้ถูกต้องตามหลักวิชาการ มีความเป็นระเบียบ และสวยงาม อ่านง่าย')"
+                     ondblclick="changeCardImage('card3')">
+                    <div class="service-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="service-name editable" data-key="srv-3-name">เอกสาร</div>
+                    <div class="service-price editable" data-key="srv-3-price">฿400 - ฿4,000</div>
+                    <span class="service-btn">ดูรายละเอียด</span>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="service-card editable-card" id="card4"
+                     onclick="handleCardClick('Admin Support', '฿200 - ฿2,000', 'fa-cogs', 'ผู้ช่วยเสมือน (Virtual Assistant) ดูแลเพจ ตอบแชทลูกค้า จัดการนัดหมาย และงานเอกสารทั่วไป ช่วยให้คุณมีเวลาโฟกัสกับงานหลักและขยายธุรกิจได้เต็มที่')"
+                     ondblclick="changeCardImage('card4')">
+                    <div class="service-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="service-name editable" data-key="srv-4-name">Admin Support</div>
+                    <div class="service-price editable" data-key="srv-4-price">฿200 - ฿2,000</div>
+                    <span class="service-btn">ดูรายละเอียด</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICE MODAL -->
+    <div class="modal-overlay" id="serviceModal" onclick="if(event.target === this) closeModal()">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-icon" id="modalIcon">
+                <i class="fas fa-star"></i>
+            </div>
+            <h3 class="modal-title" id="modalTitle">Service Name</h3>
+            <div class="modal-price" id="modalPrice">฿000</div>
+            <p class="modal-desc" id="modalDesc">
+                รายละเอียดบริการ...
+            </p>
+            <button class="modal-action" onclick="bookFromModal()">สนใจจองคิว</button>
+        </div>
+    </div>
 
     <!-- BOOKING SECTION -->
     <section class="booking-section" id="booking">
@@ -855,6 +1246,14 @@
                         <div class="weekday">ส</div>
                     </div>
                     <div class="calendar-days" id="calendarDays"></div>
+                    <div style="margin-top: 15px; font-size: 12px; display: flex; gap: 15px; justify-content: center; color: rgba(255,255,255,0.6);">
+                        <div style="display: flex; align-items: center; gap: 5px;">
+                            <div style="width: 10px; height: 10px; background: rgba(96, 165, 250, 0.2); border: 1px solid rgba(96, 165, 250, 0.5); border-radius: 2px;"></div> เลือกได้
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 5px;">
+                            <div style="width: 10px; height: 10px; background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.5); border-radius: 2px;"></div> มีการจองแล้ว
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Booking Form -->
@@ -906,12 +1305,7 @@
                     </form>
                 </div>
             </div>
-
-            <!-- Booking List -->
-            <div class="booking-list">
-                <div class="booking-title">📋 รายการจองคิวทั้งหมด</div>
-                <div id="bookingsList"></div>
-            </div>
+            <!-- Note: Public booking list hidden as requested, moved to admin dashboard -->
         </div>
     </section>
 
@@ -929,6 +1323,168 @@
             }
         }
         generateStars();
+
+        // === MODAL LOGIC ===
+        function handleCardClick(title, price, iconClass, description) {
+            // Only open modal if NOT in admin mode (to prevent conflict with double click editing)
+            if (!isAdmin) {
+                openServiceModal(title, price, iconClass, description);
+            }
+        }
+
+        function openServiceModal(title, price, iconClass, description) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalPrice').textContent = price;
+            document.getElementById('modalDesc').textContent = description;
+            
+            const iconContainer = document.getElementById('modalIcon');
+            iconContainer.innerHTML = `<i class="fas ${iconClass}"></i>`;
+            
+            document.getElementById('serviceModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('serviceModal').classList.remove('active');
+        }
+
+        function bookFromModal() {
+            const serviceName = document.getElementById('modalTitle').textContent;
+            const selectElement = document.getElementById('service');
+            
+            // Set value in dropdown
+            selectElement.value = serviceName;
+            
+            // Close modal
+            closeModal();
+            
+            // Scroll to booking section
+            document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+            
+            // Highlight the select box temporarily
+            selectElement.style.borderColor = '#60a5fa';
+            selectElement.style.boxShadow = '0 0 15px rgba(96, 165, 250, 0.5)';
+            setTimeout(() => {
+                selectElement.style.borderColor = '';
+                selectElement.style.boxShadow = '';
+            }, 1500);
+        }
+
+        // === ADMIN LOGIC (Secret Trigger + CMS) ===
+        let isAdmin = false;
+        let clickCount = 0;
+        let clickTimer;
+
+        // Secret Trigger: Click Logo 4 times
+        document.getElementById('websiteLogo').addEventListener('click', (e) => {
+            e.preventDefault();
+            clickCount++;
+            
+            clearTimeout(clickTimer);
+            clickTimer = setTimeout(() => {
+                clickCount = 0;
+            }, 2000); // Reset count if 2 seconds pass
+
+            if (clickCount === 4) {
+                toggleAdminMode();
+                clickCount = 0;
+            }
+        });
+
+        function toggleAdminMode() {
+            isAdmin = !isAdmin;
+            const dashboard = document.getElementById('adminDashboard');
+            
+            if (isAdmin) {
+                dashboard.classList.add('active');
+                enableContentEditing(true);
+                showToast("เข้าสู่โหมด Admin: แก้ไขข้อความได้โดยการคลิก");
+                renderDashboard();
+            } else {
+                dashboard.classList.remove('active');
+                enableContentEditing(false);
+                showToast("ออกจากโหมด Admin");
+            }
+            
+            renderCalendar(); // Re-render to show/hide status
+        }
+
+        function enableContentEditing(enable) {
+            const editableElements = document.querySelectorAll('.editable');
+            editableElements.forEach(el => {
+                el.contentEditable = enable;
+            });
+        }
+
+        function saveContent() {
+            const contentData = {};
+            
+            // Save Text Content
+            document.querySelectorAll('.editable').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (key) {
+                    contentData[key] = el.innerHTML;
+                }
+            });
+
+            // Save Card Images
+            const cards = {};
+            document.querySelectorAll('.editable-card').forEach(card => {
+                if(card.style.backgroundImage) {
+                    cards[card.id] = card.style.backgroundImage;
+                }
+            });
+            localStorage.setItem('workflow_card_images', JSON.stringify(cards));
+
+            localStorage.setItem('workflow_content', JSON.stringify(contentData));
+            showToast("บันทึกการแก้ไขเรียบร้อยแล้ว");
+        }
+
+        function loadContent() {
+            // Load Text
+            const savedContent = localStorage.getItem('workflow_content');
+            if (savedContent) {
+                const contentData = JSON.parse(savedContent);
+                Object.keys(contentData).forEach(key => {
+                    const el = document.querySelector(`.editable[data-key="${key}"]`);
+                    if (el) {
+                        el.innerHTML = contentData[key];
+                    }
+                });
+            }
+
+            // Load Images
+            const savedImages = localStorage.getItem('workflow_card_images');
+            if (savedImages) {
+                const cards = JSON.parse(savedImages);
+                Object.keys(cards).forEach(id => {
+                    const card = document.getElementById(id);
+                    if (card) {
+                        card.style.backgroundImage = cards[id];
+                        card.classList.add('has-bg');
+                    }
+                });
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('adminToast');
+            toast.textContent = msg;
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        function changeCardImage(cardId) {
+            if (!isAdmin) return;
+            
+            const url = prompt("กรุณาใส่ URL รูปภาพ (เช่น https://example.com/image.jpg):");
+            if (url) {
+                const card = document.getElementById(cardId);
+                card.style.backgroundImage = `url('${url}')`;
+                card.classList.add('has-bg');
+            }
+        }
 
         // === LOCAL STORAGE DATA MANAGEMENT ===
         class BookingManager {
@@ -982,9 +1538,48 @@
                     new Date(b.created_at) - new Date(a.created_at)
                 );
             }
+
+            // Check if a date has any confirmed bookings
+            hasConfirmedBooking(dateStr) {
+                return this.bookings.some(b => b.booking_date === dateStr && b.status === 'confirmed');
+            }
         }
 
         const bookingManager = new BookingManager();
+
+        // === DASHBOARD LOGIC ===
+        function renderDashboard() {
+            const bookings = bookingManager.getAll();
+            const dashList = document.getElementById('dashboardBookingList');
+            
+            // Stats
+            document.getElementById('dashTotal').textContent = bookings.length;
+            document.getElementById('dashPending').textContent = bookings.filter(b => b.status === 'pending').length;
+
+            if (bookings.length === 0) {
+                dashList.innerHTML = '<p style="color:rgba(255,255,255,0.5); text-align:center;">ไม่มีข้อมูลการจอง</p>';
+                return;
+            }
+
+            dashList.innerHTML = bookings.map(booking => `
+                <div class="booking-item" style="padding: 10px; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                        <span style="font-weight:bold; color:white;">${booking.client_name}</span>
+                        <span class="booking-status ${booking.status === 'confirmed' ? 'status-confirmed' : 'status-pending'}" style="font-size:10px;">
+                            ${booking.status === 'confirmed' ? 'ยืนยันแล้ว' : 'รออนุมัติ'}
+                        </span>
+                    </div>
+                    <div style="font-size:11px; color:rgba(255,255,255,0.6);">
+                        ${booking.service_name} | ${booking.booking_date} ${booking.booking_time}
+                    </div>
+                    <div style="margin-top:8px; display:flex; gap:5px;">
+                        ${booking.status !== 'confirmed' ? 
+                            `<button class="btn-small" onclick="confirmBooking('${booking.id}')" style="flex:1; padding:4px;">ยืนยัน</button>` : ''}
+                        <button class="btn-small btn-delete" onclick="deleteBooking('${booking.id}')" style="flex:1; padding:4px;">ลบ</button>
+                    </div>
+                </div>
+            `).join('');
+        }
 
         // === CALENDAR & BOOKING LOGIC ===
         const timeSlots = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
@@ -1029,6 +1624,13 @@
 
                 const currentDate = new Date(year, month, day);
                 currentDate.setHours(0, 0, 0, 0);
+                const dateStr = `${day}/${month + 1}/${year}`;
+
+                // Check for bookings
+                if (bookingManager.hasConfirmedBooking(dateStr)) {
+                    dayElement.classList.add('booked');
+                    dayElement.title = "มีคิวจองแล้ว";
+                }
 
                 if (currentDate < today) {
                     dayElement.classList.add('disabled');
@@ -1036,7 +1638,6 @@
                     dayElement.addEventListener('click', () => selectDate(day));
                 }
 
-                const dateStr = `${day}/${month + 1}/${year}`;
                 if (selectedDate === dateStr) {
                     dayElement.classList.add('selected');
                 }
@@ -1116,53 +1717,22 @@
             }, 5000);
         }
 
-        function renderBookingsList() {
-            const list = document.getElementById('bookingsList');
-            const bookings = bookingManager.getAll();
-            
-            if (bookings.length === 0) {
-                list.innerHTML = '<p style="color: rgba(255,255,255,0.6); text-align: center; padding: 20px;">ยังไม่มีการจองคิว</p>';
-                return;
-            }
-
-            list.innerHTML = bookings.map(booking => `
-                <div class="booking-item">
-                    <div class="booking-header">
-                        <div>
-                            <div class="booking-client">${booking.service_name}</div>
-                        </div>
-                        <span class="booking-status ${booking.status === 'confirmed' ? 'status-confirmed' : 'status-pending'}">
-                            ${booking.status === 'confirmed' ? '✓ ยืนยันแล้ว' : '⏳ รอการอนุมัติ'}
-                        </span>
-                    </div>
-                    <div class="booking-details">
-                        <strong>${booking.client_name}</strong><br>
-                        📅 ${booking.booking_date} ⏰ ${booking.booking_time}<br>
-                        📞 ${booking.phone} | 📧 ${booking.email}<br>
-                        ${booking.notes ? `<strong>หมายเหตุ:</strong> ${booking.notes}` : ''}
-                    </div>
-                    <div class="booking-actions">
-                        ${booking.status !== 'confirmed' ? 
-                            `<button class="btn-small" onclick="confirmBooking('${booking.id}')">✓ ยืนยัน</button>` : 
-                            ''}
-                        <button class="btn-small btn-delete" onclick="deleteBooking('${booking.id}')">🗑️ ลบ</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
         window.confirmBooking = function(bookingId) {
+            if (!isAdmin) return;
             bookingManager.update(bookingId, { status: 'confirmed' });
-            renderBookingsList();
-            showMessage('✓ ยืนยันการจองคิวแล้ว!', 'success');
+            renderDashboard(); // Update Dashboard view
+            renderCalendar(); 
+            showToast('ยืนยันการจองเรียบร้อย');
         };
 
         window.deleteBooking = function(bookingId) {
+            if (!isAdmin) return;
             if (!confirm('คุณแน่ใจหรือว่าต้องการลบการจองนี้?')) return;
             
             bookingManager.delete(bookingId);
-            renderBookingsList();
-            showMessage('✓ ลบการจองคิวแล้ว!', 'success');
+            renderDashboard(); // Update Dashboard view
+            renderCalendar();
+            showToast('ลบข้อมูลเรียบร้อย');
         };
 
         // === FORM SUBMISSION ===
@@ -1202,7 +1772,10 @@
                 selectedTime = null;
                 renderCalendar();
                 renderTimeSlots();
-                renderBookingsList();
+                
+                // If admin is viewing dashboard, update it in real-time
+                if(isAdmin) renderDashboard();
+                
             } catch (error) {
                 showMessage('❌ ไม่สามารถจองคิวได้ กรุณาลองใหม่', 'error');
             } finally {
@@ -1222,7 +1795,7 @@
         function init() {
             renderCalendar();
             renderTimeSlots();
-            renderBookingsList();
+            loadContent(); // Load saved CMS content
         }
 
         init();

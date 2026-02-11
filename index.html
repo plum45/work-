@@ -524,6 +524,37 @@
             to { transform: translate(-50%, 0); opacity: 1; }
         }
 
+        /* Toggle Admin Button */
+        .admin-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 10000;
+            font-size: 12px;
+            font-family: 'Prompt', sans-serif;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
+            display: none; /* Hidden by default as requested */
+        }
+
+        .admin-toggle-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+        }
+
+        .admin-toggle-btn.active {
+            background: #2563eb;
+            color: white;
+            border-color: #3b82f6;
+            display: block; /* Show when active */
+        }
+
         /* === MODAL === */
         .modal-overlay {
             position: fixed;
@@ -1148,6 +1179,11 @@
         บันทึกการแก้ไขเรียบร้อยแล้ว
     </div>
 
+    <!-- ADMIN TOGGLE (RESTORED BUTTON) -->
+    <button id="adminToggle" class="admin-toggle-btn" onclick="toggleAdminMode()">
+        <i class="fas fa-user-shield"></i> สลับโหมด Admin
+    </button>
+
     <!-- HEADER -->
     <header>
         <div class="container">
@@ -1453,23 +1489,45 @@
 
         const apiKey = ""; // API Key provided by environment for Gemini
 
+        // === FIREBASE CONFIGURATION ===
+        // 1. ไปที่ https://console.firebase.google.com/
+        // 2. สร้างโปรเจกต์ใหม่ และเพิ่ม Web App
+        // 3. ก๊อปปี้ค่า config มาใส่ตรงนี้แทนที่ของเดิม
+        const firebaseConfig = {
+            apiKey: "AIzaSyAfzanJaJ-9tpML1slfMAdwCF6jHWJRoyQ",
+            authDomain: "work-flows-ac364.firebaseapp.com",
+            projectId: "work-flows-ac364",
+            storageBucket: "work-flows-ac364.firebasestorage.app",
+            messagingSenderId: "1094886604901",
+            appId: "1:1094886604901:web:ec9b2967b629d24d46868c",
+            measurementId: "G-1KK8D48FZ7"
+        };
+
         // Firebase Setup with Fallback
         let db;
         let auth;
-        let appId;
         let useFirebase = false;
 
+        // Try to initialize Firebase if config is present
         try {
-            if (typeof __firebase_config !== 'undefined') {
-                const firebaseConfig = JSON.parse(__firebase_config);
+            // Check if user has replaced placeholder text
+            if (firebaseConfig.apiKey !== "API_KEY_HERE") {
                 const app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
                 db = getFirestore(app);
-                appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
                 useFirebase = true;
+                console.log("Firebase initialized with user config");
+            } else if (typeof __firebase_config !== 'undefined') {
+                // Fallback to internal env for preview
+                const envConfig = JSON.parse(__firebase_config);
+                const app = initializeApp(envConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                useFirebase = true;
+                console.log("Firebase initialized with environment config");
             }
         } catch (e) {
-            console.warn("Firebase not available, falling back to local storage");
+            console.warn("Firebase not available, falling back to local storage", e);
         }
 
         // Generate stars
@@ -1486,7 +1544,7 @@
         }
         generateStars();
 
-        // === GEMINI API ===
+        // === GEMINI API INTEGRATION ===
         async function callGemini(prompt) {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             const payload = {
@@ -1510,7 +1568,7 @@
             }
         }
 
-        // Expose functions to window
+        // === AI NOTE WRITER (USER) ===
         window.openAiModal = function() {
             document.getElementById('aiModal').classList.add('active');
         }
@@ -1540,6 +1598,7 @@
             btn.disabled = false;
             btn.innerHTML = originalText;
             
+            // Highlight the note area
             const noteArea = document.getElementById('notes');
             noteArea.style.borderColor = '#d946ef';
             noteArea.style.boxShadow = '0 0 15px rgba(217, 70, 239, 0.3)';
@@ -1549,6 +1608,7 @@
             }, 2000);
         }
 
+        // === AI JOB ANALYSIS (ADMIN) ===
         window.analyzeJob = async function(bookingId, notes, service) {
             if (!notes) {
                 alert("ไม่มีรายละเอียดงานให้วิเคราะห์");
@@ -1565,13 +1625,18 @@
             คำแนะนำ: [Short advice for freelancer]`;
 
             const result = await callGemini(prompt);
+            
             alert(`📊 ผลการวิเคราะห์จาก AI:\n\n${result}`);
+            
             if(btn) btn.innerHTML = '✨ AI ประเมิน';
         }
 
+        // === MODAL LOGIC ===
         window.handleCardClick = function(title, price, iconClass, description) {
-            // Always open modal unless in editing mode which is handled by a specific button
-            openServiceModal(title, price, iconClass, description);
+            // Only open modal if NOT in admin mode (to prevent conflict with double click editing)
+            if (!isAdmin) {
+                openServiceModal(title, price, iconClass, description);
+            }
         }
 
         window.openServiceModal = function(title, price, iconClass, description) {
@@ -1592,10 +1657,17 @@
         window.bookFromModal = function() {
             const serviceName = document.getElementById('modalTitle').textContent;
             const selectElement = document.getElementById('service');
+            
+            // Set value in dropdown
             selectElement.value = serviceName;
+            
+            // Close modal
             closeModal();
+            
+            // Scroll to booking section
             document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
             
+            // Highlight the select box temporarily
             selectElement.style.borderColor = '#60a5fa';
             selectElement.style.boxShadow = '0 0 15px rgba(96, 165, 250, 0.5)';
             setTimeout(() => {
@@ -1604,7 +1676,7 @@
             }, 1500);
         }
 
-        // === ADMIN LOGIC ===
+        // === ADMIN LOGIC (Secret Trigger + CMS) ===
         let isAdmin = false;
         let clickCount = 0;
         let clickTimer;
@@ -1628,25 +1700,27 @@
         window.toggleAdminMode = function() {
             isAdmin = !isAdmin;
             const dashboard = document.getElementById('adminDashboard');
-            // const toggleBtn = document.getElementById('adminToggle'); // Removed
+            const toggleBtn = document.getElementById('adminToggle');
             const editBtns = document.querySelectorAll('.edit-img-btn');
             
             if (isAdmin) {
                 dashboard.classList.add('active');
-                // toggleBtn logic removed
+                toggleBtn.classList.add('active');
+                toggleBtn.innerHTML = '<i class="fas fa-check-circle"></i> ปิดโหมด Admin';
                 enableContentEditing(true);
                 editBtns.forEach(btn => btn.style.display = 'block');
-                showToast("เข้าสู่โหมด Admin");
+                showToast("เข้าสู่โหมด Admin: แก้ไขข้อความได้โดยการคลิก");
                 renderDashboard();
             } else {
                 dashboard.classList.remove('active');
-                // toggleBtn logic removed
+                toggleBtn.classList.remove('active');
+                toggleBtn.innerHTML = '<i class="fas fa-user-shield"></i> สลับโหมด Admin';
                 enableContentEditing(false);
                 editBtns.forEach(btn => btn.style.display = 'none');
                 showToast("ออกจากโหมด Admin");
             }
             
-            renderCalendar();
+            renderCalendar(); // Re-render to show/hide status
         }
 
         function enableContentEditing(enable) {
@@ -1658,30 +1732,42 @@
 
         window.saveContent = function() {
             const contentData = {};
+            
+            // Save Text Content
             document.querySelectorAll('.editable').forEach(el => {
                 const key = el.getAttribute('data-key');
-                if (key) contentData[key] = el.innerHTML;
+                if (key) {
+                    contentData[key] = el.innerHTML;
+                }
             });
 
+            // Save Card Images
             const cards = {};
             document.querySelectorAll('.editable-card').forEach(card => {
-                if(card.style.backgroundImage) cards[card.id] = card.style.backgroundImage;
+                if(card.style.backgroundImage) {
+                    cards[card.id] = card.style.backgroundImage;
+                }
             });
             localStorage.setItem('workflow_card_images', JSON.stringify(cards));
+
             localStorage.setItem('workflow_content', JSON.stringify(contentData));
             showToast("บันทึกการแก้ไขเรียบร้อยแล้ว");
         }
 
         function loadContent() {
+            // Load Text
             const savedContent = localStorage.getItem('workflow_content');
             if (savedContent) {
                 const contentData = JSON.parse(savedContent);
                 Object.keys(contentData).forEach(key => {
                     const el = document.querySelector(`.editable[data-key="${key}"]`);
-                    if (el) el.innerHTML = contentData[key];
+                    if (el) {
+                        el.innerHTML = contentData[key];
+                    }
                 });
             }
 
+            // Load Images
             const savedImages = localStorage.getItem('workflow_card_images');
             if (savedImages) {
                 const cards = JSON.parse(savedImages);
@@ -1695,14 +1781,18 @@
             }
         }
 
-        window.showToast = function(msg) {
+        function showToast(msg) {
             const toast = document.getElementById('adminToast');
             toast.textContent = msg;
             toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
         }
 
         window.changeCardImage = function(cardId) {
+            if (!isAdmin) return;
+            
             const url = prompt("กรุณาใส่ URL รูปภาพ (เช่น https://example.com/image.jpg):");
             if (url) {
                 const card = document.getElementById(cardId);
@@ -1711,7 +1801,7 @@
             }
         }
 
-        // === BOOKING MANAGER (HYBRID) ===
+        // === LOCAL STORAGE DATA MANAGEMENT ===
         class BookingManager {
             constructor() {
                 this.bookings = [];
@@ -1721,25 +1811,45 @@
 
             async init() {
                 if (useFirebase) {
-                    // Firebase Mode
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } else {
-                        await signInAnonymously(auth);
+                    try {
+                        // Check if we are using the user's specific Firebase config
+                        // We check the specific API key provided by the user
+                        if (firebaseConfig.apiKey === "AIzaSyAfzanJaJ-9tpML1slfMAdwCF6jHWJRoyQ") {
+                            await signInAnonymously(auth);
+                        } else if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                            // Environment config uses environment token
+                            await signInWithCustomToken(auth, __initial_auth_token);
+                        } else {
+                            // Fallback
+                            await signInAnonymously(auth);
+                        }
+                    } catch (authError) {
+                        console.error("Auth error:", authError);
                     }
 
-                    const q = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
-                    onSnapshot(q, (snapshot) => {
-                        this.bookings = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                        this.bookings.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-                        this.refreshUI();
-                    });
+                    // For preview, use namespaced collection. For production, use 'bookings'
+                    let collectionName = 'bookings';
+                    if (firebaseConfig.apiKey === "API_KEY_HERE" && typeof __app_id !== 'undefined') {
+                         const q = collection(db, 'artifacts', __app_id, 'public', 'data', 'bookings');
+                         this.listen(q);
+                    } else {
+                         const q = collection(db, 'bookings');
+                         this.listen(q);
+                    }
                 } else {
                     // Local Storage Mode
                     const data = localStorage.getItem(this.storageKey);
                     this.bookings = data ? JSON.parse(data) : [];
                     this.refreshUI();
                 }
+            }
+
+            listen(q) {
+                onSnapshot(q, (snapshot) => {
+                    this.bookings = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    this.bookings.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                    this.refreshUI();
+                });
             }
 
             refreshUI() {
@@ -1752,7 +1862,13 @@
                 
                 if (useFirebase) {
                     if (!auth.currentUser) return;
-                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), newBooking);
+                    let col;
+                    if (firebaseConfig.apiKey === "API_KEY_HERE" && typeof __app_id !== 'undefined') {
+                        col = collection(db, 'artifacts', __app_id, 'public', 'data', 'bookings');
+                    } else {
+                        col = collection(db, 'bookings');
+                    }
+                    await addDoc(col, newBooking);
                 } else {
                     newBooking.id = 'local_' + Date.now();
                     this.bookings.push(newBooking);
@@ -1763,7 +1879,12 @@
 
             async update(id, updates) {
                 if (useFirebase) {
-                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'bookings', id);
+                    let docRef;
+                    if (firebaseConfig.apiKey === "API_KEY_HERE" && typeof __app_id !== 'undefined') {
+                        docRef = doc(db, 'artifacts', __app_id, 'public', 'data', 'bookings', id);
+                    } else {
+                        docRef = doc(db, 'bookings', id);
+                    }
                     await updateDoc(docRef, updates);
                 } else {
                     const index = this.bookings.findIndex(b => b.id === id);
@@ -1777,7 +1898,12 @@
 
             async delete(id) {
                 if (useFirebase) {
-                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'bookings', id);
+                    let docRef;
+                    if (firebaseConfig.apiKey === "API_KEY_HERE" && typeof __app_id !== 'undefined') {
+                        docRef = doc(db, 'artifacts', __app_id, 'public', 'data', 'bookings', id);
+                    } else {
+                        docRef = doc(db, 'bookings', id);
+                    }
                     await deleteDoc(docRef);
                 } else {
                     const index = this.bookings.findIndex(b => b.id === id);
@@ -1809,6 +1935,7 @@
             const bookings = bookingManager.getAll();
             const dashList = document.getElementById('dashboardBookingList');
             
+            // Stats
             document.getElementById('dashTotal').textContent = bookings.length;
             document.getElementById('dashPending').textContent = bookings.filter(b => b.status === 'pending').length;
 
@@ -1840,7 +1967,7 @@
             `).join('');
         }
 
-        // === CALENDAR LOGIC ===
+        // === CALENDAR & BOOKING LOGIC ===
         const timeSlots = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
         let selectedDate = null;
         let selectedTime = null;
@@ -1849,20 +1976,30 @@
         function renderCalendar() {
             const year = currentMonth.getFullYear();
             const month = currentMonth.getMonth();
-            const monthNames = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+            
+            const monthNames = [
+                'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+                'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+            ];
+
             document.getElementById('monthDisplay').textContent = `${monthNames[month]} ${year + 543}`;
 
             const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+
             const calendarDays = document.getElementById('calendarDays');
             calendarDays.innerHTML = '';
 
+            // Previous month days
             for (let i = firstDay - 1; i >= 0; i--) {
                 const day = document.createElement('div');
                 day.className = 'calendar-day disabled';
+                day.textContent = daysInPrevMonth - i;
                 calendarDays.appendChild(day);
             }
 
+            // Current month days
             const today = new Date();
             today.setHours(0, 0, 0, 0);
 
@@ -1870,12 +2007,15 @@
                 const dayElement = document.createElement('div');
                 dayElement.className = 'calendar-day';
                 dayElement.textContent = day;
+
                 const currentDate = new Date(year, month, day);
                 currentDate.setHours(0, 0, 0, 0);
                 const dateStr = `${day}/${month + 1}/${year}`;
 
+                // Check for bookings
                 if (bookingManager.hasConfirmedBooking(dateStr)) {
                     dayElement.classList.add('booked');
+                    dayElement.title = "มีคิวจองแล้ว";
                 }
 
                 if (currentDate < today) {
@@ -1887,7 +2027,18 @@
                 if (selectedDate === dateStr) {
                     dayElement.classList.add('selected');
                 }
+
                 calendarDays.appendChild(dayElement);
+            }
+
+            // Next month days
+            const totalCells = firstDay + daysInMonth;
+            const remainingCells = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+            for (let i = 1; i <= remainingCells; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day disabled';
+                day.textContent = i;
+                calendarDays.appendChild(day);
             }
         }
 
@@ -1903,19 +2054,26 @@
         function renderTimeSlots() {
             const slotsContainer = document.getElementById('timeSlots');
             slotsContainer.innerHTML = '';
+
             if (!selectedDate) {
                 slotsContainer.innerHTML = '<p style="color: rgba(255,255,255,0.6); text-align: center; grid-column: 1/-1;">กรุณาเลือกวันที่ก่อน</p>';
                 return;
             }
+
             timeSlots.forEach(time => {
                 const slot = document.createElement('div');
                 slot.className = 'time-slot';
                 slot.textContent = time;
-                if (selectedTime === time) slot.classList.add('selected');
+
+                if (selectedTime === time) {
+                    slot.classList.add('selected');
+                }
+
                 slot.addEventListener('click', () => {
                     selectedTime = time;
                     renderTimeSlots();
                 });
+
                 slotsContainer.appendChild(slot);
             });
         }
@@ -1923,32 +2081,68 @@
         document.getElementById('prevMonth').addEventListener('click', () => {
             currentMonth.setMonth(currentMonth.getMonth() - 1);
             selectedDate = null;
+            selectedTime = null;
             renderCalendar();
+            renderTimeSlots();
         });
 
         document.getElementById('nextMonth').addEventListener('click', () => {
             currentMonth.setMonth(currentMonth.getMonth() + 1);
             selectedDate = null;
+            selectedTime = null;
             renderCalendar();
+            renderTimeSlots();
         });
+
+        function showMessage(message, type) {
+            const msgEl = document.getElementById('message');
+            msgEl.textContent = message;
+            msgEl.className = `message ${type}`;
+            setTimeout(() => {
+                msgEl.className = 'message';
+            }, 5000);
+        }
 
         window.confirmBooking = async function(bookingId) {
             if (!isAdmin) return;
-            try { await bookingManager.update(bookingId, { status: 'confirmed' }); showToast('ยืนยันการจองเรียบร้อย'); } catch(e) { showToast('เกิดข้อผิดพลาด'); }
+            try {
+                await bookingManager.update(bookingId, { status: 'confirmed' });
+                showToast('ยืนยันการจองเรียบร้อย');
+            } catch(e) {
+                showToast('เกิดข้อผิดพลาด');
+            }
         };
 
         window.deleteBooking = async function(bookingId) {
             if (!isAdmin) return;
             if (!confirm('คุณแน่ใจหรือว่าต้องการลบการจองนี้?')) return;
-            try { await bookingManager.delete(bookingId); showToast('ลบข้อมูลเรียบร้อย'); } catch(e) { showToast('เกิดข้อผิดพลาด'); }
+            
+            try {
+                await bookingManager.delete(bookingId);
+                showToast('ลบข้อมูลเรียบร้อย');
+            } catch(e) {
+                showToast('เกิดข้อผิดพลาดในการลบ');
+            }
         };
 
+        // === FORM SUBMISSION ===
         document.getElementById('bookingForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!selectedDate || !selectedTime) { showToast('❌ กรุณาเลือกวันและเวลา'); return; }
+
+            if (!selectedDate || !selectedTime) {
+                showMessage('❌ กรุณาเลือกวันและเวลา', 'error');
+                return;
+            }
+
             const submitBtn = e.target.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
+            const submitText = document.getElementById('submitText');
             
+            submitBtn.disabled = true;
+            submitText.innerHTML = '<span class="loading-spinner"></span>กำลังบันทึก...';
+
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
             const bookingData = {
                 service_name: document.getElementById('service').value,
                 client_name: document.getElementById('clientName').value,
@@ -1962,22 +2156,36 @@
 
             try {
                 await bookingManager.create(bookingData);
-                showToast('✅ จองคิวสำเร็จ! เรากำลังตรวจสอบ');
+                showMessage('✅ จองคิวสำเร็จ! เรากำลังตรวจสอบ', 'success');
                 e.target.reset();
                 selectedDate = null;
+                selectedTime = null;
                 renderCalendar();
                 renderTimeSlots();
+                
+                // If admin is viewing dashboard, update it in real-time
+                if(isAdmin) renderDashboard();
+                
             } catch (error) {
-                showToast('❌ ไม่สามารถจองคิวได้');
+                showMessage('❌ ไม่สามารถจองคิวได้ กรุณาลองใหม่', 'error');
             } finally {
                 submitBtn.disabled = false;
+                submitText.textContent = 'จองคิว';
             }
         });
 
+        document.getElementById('bookingForm').addEventListener('reset', () => {
+            selectedDate = null;
+            selectedTime = null;
+            renderCalendar();
+            renderTimeSlots();
+        });
+
+        // === INIT ===
         function init() {
             renderCalendar();
             renderTimeSlots();
-            loadContent();
+            loadContent(); // Load saved CMS content
         }
 
         init();

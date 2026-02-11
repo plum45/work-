@@ -418,8 +418,8 @@
         /* === DASHBOARD PANEL === */
         .admin-dashboard {
             position: fixed;
-            bottom: 80px; /* Raised to not cover toggle button */
-            right: 20px;
+            bottom: 30px;
+            right: 30px;
             width: 400px;
             max-height: 70vh;
             background: rgba(15, 23, 42, 0.95);
@@ -522,35 +522,6 @@
         @keyframes fadeInDown {
             from { transform: translate(-50%, -20px); opacity: 0; }
             to { transform: translate(-50%, 0); opacity: 1; }
-        }
-
-        /* Toggle Admin Button */
-        .admin-toggle-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            color: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 10000;
-            font-size: 12px;
-            font-family: 'Prompt', sans-serif;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s;
-        }
-
-        .admin-toggle-btn:hover {
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-        }
-
-        .admin-toggle-btn.active {
-            background: #2563eb;
-            color: white;
-            border-color: #3b82f6;
         }
 
         /* === MODAL === */
@@ -1177,16 +1148,11 @@
         บันทึกการแก้ไขเรียบร้อยแล้ว
     </div>
 
-    <!-- ADMIN TOGGLE (RESTORED BUTTON) -->
-    <button id="adminToggle" class="admin-toggle-btn" onclick="toggleAdminMode()">
-        <i class="fas fa-user-shield"></i> สลับโหมด Admin
-    </button>
-
     <!-- HEADER -->
     <header>
         <div class="container">
             <div class="header-content">
-                <div class="logo">
+                <div class="logo" id="websiteLogo" title="Click 4 times to toggle Admin Mode">
                     <i class="fas fa-zap"></i>
                     <span>Work Flow</span>
                 </div>
@@ -1208,6 +1174,7 @@
         <div class="dashboard-content">
             <div class="dashboard-controls">
                 <button class="btn-dash save" onclick="saveContent()"><i class="fas fa-save"></i> บันทึกหน้าเว็บ</button>
+                <button class="btn-dash logout" onclick="toggleAdminMode()"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</button>
             </div>
             
             <div class="dashboard-stat-grid">
@@ -1224,6 +1191,10 @@
             <h4 style="margin: 0 0 10px; color:rgba(255,255,255,0.7)">รายการจองล่าสุด</h4>
             <div id="dashboardBookingList" style="max-height: 300px; overflow-y: auto;">
                 <!-- Booking items will be injected here -->
+            </div>
+            
+            <div style="margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.5); text-align: center;">
+                * ดับเบิ้ลคลิกที่กล่องบริการเพื่อเปลี่ยนรูปพื้นหลัง
             </div>
         </div>
     </div>
@@ -1268,7 +1239,8 @@
             <div class="services-grid">
                 <!-- Service 1 -->
                 <div class="service-card editable-card" id="card1"
-                     onclick="handleCardClick('PowerPoint Design', '฿500 - ฿5,000', 'fa-file-powerpoint', 'ออกแบบ Slide นำเสนออย่างมืออาชีพ ทันสมัย เข้าใจง่าย เหมาะสำหรับ Pitch Deck, การเรียนการสอน, หรือการประชุมธุรกิจที่ต้องการความน่าเชื่อถือ')">
+                     onclick="handleCardClick('PowerPoint Design', '฿500 - ฿5,000', 'fa-file-powerpoint', 'ออกแบบ Slide นำเสนออย่างมืออาชีพ ทันสมัย เข้าใจง่าย เหมาะสำหรับ Pitch Deck, การเรียนการสอน, หรือการประชุมธุรกิจที่ต้องการความน่าเชื่อถือ')"
+                     ondblclick="changeCardImage('card1')">
                     <button class="edit-img-btn" onclick="event.stopPropagation(); changeCardImage('card1')"><i class="fas fa-image"></i></button>
                     <div class="service-icon">
                         <i class="fas fa-file-powerpoint"></i>
@@ -1280,7 +1252,8 @@
 
                 <!-- Service 2 -->
                 <div class="service-card editable-card" id="card2"
-                     onclick="handleCardClick('Canva Design', '฿300 - ฿3,000', 'fa-palette', 'ออกแบบกราฟิกสำหรับ Social Media, Poster, Infographic, และสื่อโฆษณาต่างๆ ด้วย Canva สวยงาม รวดเร็ว และสามารถส่งไฟล์ให้ลูกค้าแก้ไขต่อได้ง่าย')">
+                     onclick="handleCardClick('Canva Design', '฿300 - ฿3,000', 'fa-palette', 'ออกแบบกราฟิกสำหรับ Social Media, Poster, Infographic, และสื่อโฆษณาต่างๆ ด้วย Canva สวยงาม รวดเร็ว และสามารถส่งไฟล์ให้ลูกค้าแก้ไขต่อได้ง่าย')"
+                     ondblclick="changeCardImage('card2')">
                     <button class="edit-img-btn" onclick="event.stopPropagation(); changeCardImage('card2')"><i class="fas fa-image"></i></button>
                     <div class="service-icon">
                         <i class="fas fa-palette"></i>
@@ -1292,7 +1265,8 @@
 
                 <!-- Service 3 -->
                 <div class="service-card editable-card" id="card3"
-                     onclick="handleCardClick('เอกสารวิชาการ', '฿400 - ฿4,000', 'fa-file-alt', 'บริการจัดรูปแบบเอกสาร รายงาน วิทยานิพนธ์ พิมพ์งาน และคีย์ข้อมูลต่างๆ ให้ถูกต้องตามหลักวิชาการ มีความเป็นระเบียบ และสวยงาม อ่านง่าย')">
+                     onclick="handleCardClick('เอกสารวิชาการ', '฿400 - ฿4,000', 'fa-file-alt', 'บริการจัดรูปแบบเอกสาร รายงาน วิทยานิพนธ์ พิมพ์งาน และคีย์ข้อมูลต่างๆ ให้ถูกต้องตามหลักวิชาการ มีความเป็นระเบียบ และสวยงาม อ่านง่าย')"
+                     ondblclick="changeCardImage('card3')">
                     <button class="edit-img-btn" onclick="event.stopPropagation(); changeCardImage('card3')"><i class="fas fa-image"></i></button>
                     <div class="service-icon">
                         <i class="fas fa-file-alt"></i>
@@ -1304,7 +1278,8 @@
 
                 <!-- Service 4 -->
                 <div class="service-card editable-card" id="card4"
-                     onclick="handleCardClick('Admin Support', '฿200 - ฿2,000', 'fa-cogs', 'ผู้ช่วยเสมือน (Virtual Assistant) ดูแลเพจ ตอบแชทลูกค้า จัดการนัดหมาย และงานเอกสารทั่วไป ช่วยให้คุณมีเวลาโฟกัสกับงานหลักและขยายธุรกิจได้เต็มที่')">
+                     onclick="handleCardClick('Admin Support', '฿200 - ฿2,000', 'fa-cogs', 'ผู้ช่วยเสมือน (Virtual Assistant) ดูแลเพจ ตอบแชทลูกค้า จัดการนัดหมาย และงานเอกสารทั่วไป ช่วยให้คุณมีเวลาโฟกัสกับงานหลักและขยายธุรกิจได้เต็มที่')"
+                     ondblclick="changeCardImage('card4')">
                     <button class="edit-img-btn" onclick="event.stopPropagation(); changeCardImage('card4')"><i class="fas fa-image"></i></button>
                     <div class="service-icon">
                         <i class="fas fa-cogs"></i>
@@ -1444,10 +1419,11 @@
                     </form>
                 </div>
             </div>
+            <!-- Note: Public booking list hidden as requested, moved to admin dashboard -->
         </div>
     </section>
     
-    <!-- CONTACT SECTION -->
+    <!-- CONTACT SECTION (NEW) -->
     <section class="contact-section" id="contact" style="padding: 60px 0 100px; position: relative; z-index: 10;">
         <div class="container">
             <div class="section-header">
@@ -1594,8 +1570,7 @@
         }
 
         window.handleCardClick = function(title, price, iconClass, description) {
-            // Only open modal if NOT in admin mode OR if clicking specific area
-            // But since we moved edit button to a specific icon, we can always open modal on card click
+            // Always open modal unless in editing mode which is handled by a specific button
             openServiceModal(title, price, iconClass, description);
         }
 
@@ -1631,25 +1606,41 @@
 
         // === ADMIN LOGIC ===
         let isAdmin = false;
+        let clickCount = 0;
+        let clickTimer;
+
+        // Secret Trigger: Click Logo 4 times
+        document.getElementById('websiteLogo').addEventListener('click', (e) => {
+            e.preventDefault();
+            clickCount++;
+            
+            clearTimeout(clickTimer);
+            clickTimer = setTimeout(() => {
+                clickCount = 0;
+            }, 2000); // Reset count if 2 seconds pass
+
+            if (clickCount === 4) {
+                toggleAdminMode();
+                clickCount = 0;
+            }
+        });
 
         window.toggleAdminMode = function() {
             isAdmin = !isAdmin;
             const dashboard = document.getElementById('adminDashboard');
-            const toggleBtn = document.getElementById('adminToggle');
+            // const toggleBtn = document.getElementById('adminToggle'); // Removed
             const editBtns = document.querySelectorAll('.edit-img-btn');
             
             if (isAdmin) {
                 dashboard.classList.add('active');
-                toggleBtn.classList.add('active');
-                toggleBtn.innerHTML = '<i class="fas fa-check-circle"></i> ปิดโหมด Admin';
+                // toggleBtn logic removed
                 enableContentEditing(true);
                 editBtns.forEach(btn => btn.style.display = 'block');
                 showToast("เข้าสู่โหมด Admin");
                 renderDashboard();
             } else {
                 dashboard.classList.remove('active');
-                toggleBtn.classList.remove('active');
-                toggleBtn.innerHTML = '<i class="fas fa-user-shield"></i> สลับโหมด Admin';
+                // toggleBtn logic removed
                 enableContentEditing(false);
                 editBtns.forEach(btn => btn.style.display = 'none');
                 showToast("ออกจากโหมด Admin");

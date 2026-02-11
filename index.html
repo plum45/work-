@@ -126,7 +126,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            cursor: pointer; /* Change cursor to indicate clickability */
+            cursor: pointer;
             user-select: none;
         }
 
@@ -147,7 +147,7 @@
             color: white;
         }
 
-        /* === HERO SECTION (Separated) === */
+        /* === HERO SECTION === */
         .hero-section {
             padding: 80px 0 60px;
             position: relative;
@@ -217,7 +217,7 @@
             font-size: 14px;
         }
 
-        /* === SERVICES SECTION (Separated) === */
+        /* === SERVICES SECTION === */
         .services-section {
             padding: 60px 0 100px;
             position: relative;
@@ -284,7 +284,6 @@
             z-index: 1;
         }
         
-        /* Overlay for custom bg images to ensure text readability */
         .service-card.has-bg::after {
             content: '';
             position: absolute;
@@ -354,6 +353,25 @@
             border-color: #3b82f6;
         }
 
+        .edit-img-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 10;
+            display: none;
+        }
+
+        .edit-img-btn:hover {
+            background: #3b82f6;
+        }
+
         /* === CONTACT SECTION === */
         .contact-card {
             background: rgba(255, 255, 255, 0.08);
@@ -400,17 +418,17 @@
         /* === DASHBOARD PANEL === */
         .admin-dashboard {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: 80px; /* Raised to not cover toggle button */
+            right: 20px;
             width: 400px;
-            max-height: 80vh;
+            max-height: 70vh;
             background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
             z-index: 9999;
             color: white;
-            display: none; /* Hidden by default */
+            display: none; 
             flex-direction: column;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
             transition: all 0.3s ease;
@@ -504,6 +522,35 @@
         @keyframes fadeInDown {
             from { transform: translate(-50%, -20px); opacity: 0; }
             to { transform: translate(-50%, 0); opacity: 1; }
+        }
+
+        /* Toggle Admin Button */
+        .admin-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 10000;
+            font-size: 12px;
+            font-family: 'Prompt', sans-serif;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
+        }
+
+        .admin-toggle-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+        }
+
+        .admin-toggle-btn.active {
+            background: #2563eb;
+            color: white;
+            border-color: #3b82f6;
         }
 
         /* === MODAL === */
@@ -1130,11 +1177,16 @@
         บันทึกการแก้ไขเรียบร้อยแล้ว
     </div>
 
+    <!-- ADMIN TOGGLE (RESTORED BUTTON) -->
+    <button id="adminToggle" class="admin-toggle-btn" onclick="toggleAdminMode()">
+        <i class="fas fa-user-shield"></i> สลับโหมด Admin
+    </button>
+
     <!-- HEADER -->
     <header>
         <div class="container">
             <div class="header-content">
-                <div class="logo" id="websiteLogo" title="Click 4 times to toggle Admin Mode">
+                <div class="logo">
                     <i class="fas fa-zap"></i>
                     <span>Work Flow</span>
                 </div>
@@ -1156,7 +1208,6 @@
         <div class="dashboard-content">
             <div class="dashboard-controls">
                 <button class="btn-dash save" onclick="saveContent()"><i class="fas fa-save"></i> บันทึกหน้าเว็บ</button>
-                <button class="btn-dash logout" onclick="toggleAdminMode()"><i class="fas fa-sign-out-alt"></i> ออกจากระบบ</button>
             </div>
             
             <div class="dashboard-stat-grid">
@@ -1173,10 +1224,6 @@
             <h4 style="margin: 0 0 10px; color:rgba(255,255,255,0.7)">รายการจองล่าสุด</h4>
             <div id="dashboardBookingList" style="max-height: 300px; overflow-y: auto;">
                 <!-- Booking items will be injected here -->
-            </div>
-            
-            <div style="margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.5); text-align: center;">
-                * ดับเบิ้ลคลิกที่กล่องบริการเพื่อเปลี่ยนรูปพื้นหลัง
             </div>
         </div>
     </div>
@@ -1221,8 +1268,8 @@
             <div class="services-grid">
                 <!-- Service 1 -->
                 <div class="service-card editable-card" id="card1"
-                     onclick="handleCardClick('PowerPoint Design', '฿500 - ฿5,000', 'fa-file-powerpoint', 'ออกแบบ Slide นำเสนออย่างมืออาชีพ ทันสมัย เข้าใจง่าย เหมาะสำหรับ Pitch Deck, การเรียนการสอน, หรือการประชุมธุรกิจที่ต้องการความน่าเชื่อถือ')"
-                     ondblclick="changeCardImage('card1')">
+                     onclick="handleCardClick('PowerPoint Design', '฿500 - ฿5,000', 'fa-file-powerpoint', 'ออกแบบ Slide นำเสนออย่างมืออาชีพ ทันสมัย เข้าใจง่าย เหมาะสำหรับ Pitch Deck, การเรียนการสอน, หรือการประชุมธุรกิจที่ต้องการความน่าเชื่อถือ')">
+                    <button class="edit-img-btn" onclick="event.stopPropagation(); changeCardImage('card1')"><i class="fas fa-image"></i></button>
                     <div class="service-icon">
                         <i class="fas fa-file-powerpoint"></i>
                     </div>
@@ -1233,8 +1280,8 @@
 
                 <!-- Service 2 -->
                 <div class="service-card editable-card" id="card2"
-                     onclick="handleCardClick('Canva Design', '฿300 - ฿3,000', 'fa-palette', 'ออกแบบกราฟิกสำหรับ Social Media, Poster, Infographic, และสื่อโฆษณาต่างๆ ด้วย Canva สวยงาม รวดเร็ว และสามารถส่งไฟล์ให้ลูกค้าแก้ไขต่อได้ง่าย')"
-                     ondblclick="changeCardImage('card2')">
+                     onclick="handleCardClick('Canva Design', '฿300 - ฿3,000', 'fa-palette', 'ออกแบบกราฟิกสำหรับ Social Media, Poster, Infographic, และสื่อโฆษณาต่างๆ ด้วย Canva สวยงาม รวดเร็ว และสามารถส่งไฟล์ให้ลูกค้าแก้ไขต่อได้ง่าย')">
+                    <button class="edit-img-btn" onclick="event.stopPropagation(); changeCardImage('card2')"><i class="fas fa-image"></i></button>
                     <div class="service-icon">
                         <i class="fas fa-palette"></i>
                     </div>
@@ -1245,8 +1292,8 @@
 
                 <!-- Service 3 -->
                 <div class="service-card editable-card" id="card3"
-                     onclick="handleCardClick('เอกสารวิชาการ', '฿400 - ฿4,000', 'fa-file-alt', 'บริการจัดรูปแบบเอกสาร รายงาน วิทยานิพนธ์ พิมพ์งาน และคีย์ข้อมูลต่างๆ ให้ถูกต้องตามหลักวิชาการ มีความเป็นระเบียบ และสวยงาม อ่านง่าย')"
-                     ondblclick="changeCardImage('card3')">
+                     onclick="handleCardClick('เอกสารวิชาการ', '฿400 - ฿4,000', 'fa-file-alt', 'บริการจัดรูปแบบเอกสาร รายงาน วิทยานิพนธ์ พิมพ์งาน และคีย์ข้อมูลต่างๆ ให้ถูกต้องตามหลักวิชาการ มีความเป็นระเบียบ และสวยงาม อ่านง่าย')">
+                    <button class="edit-img-btn" onclick="event.stopPropagation(); changeCardImage('card3')"><i class="fas fa-image"></i></button>
                     <div class="service-icon">
                         <i class="fas fa-file-alt"></i>
                     </div>
@@ -1257,8 +1304,8 @@
 
                 <!-- Service 4 -->
                 <div class="service-card editable-card" id="card4"
-                     onclick="handleCardClick('Admin Support', '฿200 - ฿2,000', 'fa-cogs', 'ผู้ช่วยเสมือน (Virtual Assistant) ดูแลเพจ ตอบแชทลูกค้า จัดการนัดหมาย และงานเอกสารทั่วไป ช่วยให้คุณมีเวลาโฟกัสกับงานหลักและขยายธุรกิจได้เต็มที่')"
-                     ondblclick="changeCardImage('card4')">
+                     onclick="handleCardClick('Admin Support', '฿200 - ฿2,000', 'fa-cogs', 'ผู้ช่วยเสมือน (Virtual Assistant) ดูแลเพจ ตอบแชทลูกค้า จัดการนัดหมาย และงานเอกสารทั่วไป ช่วยให้คุณมีเวลาโฟกัสกับงานหลักและขยายธุรกิจได้เต็มที่')">
+                    <button class="edit-img-btn" onclick="event.stopPropagation(); changeCardImage('card4')"><i class="fas fa-image"></i></button>
                     <div class="service-icon">
                         <i class="fas fa-cogs"></i>
                     </div>
@@ -1397,11 +1444,10 @@
                     </form>
                 </div>
             </div>
-            <!-- Note: Public booking list hidden as requested, moved to admin dashboard -->
         </div>
     </section>
     
-    <!-- CONTACT SECTION (NEW) -->
+    <!-- CONTACT SECTION -->
     <section class="contact-section" id="contact" style="padding: 60px 0 100px; position: relative; z-index: 10;">
         <div class="container">
             <div class="section-header">
@@ -1431,12 +1477,24 @@
 
         const apiKey = ""; // API Key provided by environment for Gemini
 
-        // Firebase Config
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        // Firebase Setup with Fallback
+        let db;
+        let auth;
+        let appId;
+        let useFirebase = false;
+
+        try {
+            if (typeof __firebase_config !== 'undefined') {
+                const firebaseConfig = JSON.parse(__firebase_config);
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                useFirebase = true;
+            }
+        } catch (e) {
+            console.warn("Firebase not available, falling back to local storage");
+        }
 
         // Generate stars
         function generateStars() {
@@ -1452,7 +1510,7 @@
         }
         generateStars();
 
-        // === GEMINI API INTEGRATION ===
+        // === GEMINI API ===
         async function callGemini(prompt) {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             const payload = {
@@ -1476,7 +1534,7 @@
             }
         }
 
-        // === AI NOTE WRITER (USER) ===
+        // Expose functions to window
         window.openAiModal = function() {
             document.getElementById('aiModal').classList.add('active');
         }
@@ -1506,7 +1564,6 @@
             btn.disabled = false;
             btn.innerHTML = originalText;
             
-            // Highlight the note area
             const noteArea = document.getElementById('notes');
             noteArea.style.borderColor = '#d946ef';
             noteArea.style.boxShadow = '0 0 15px rgba(217, 70, 239, 0.3)';
@@ -1516,7 +1573,6 @@
             }, 2000);
         }
 
-        // === AI JOB ANALYSIS (ADMIN) ===
         window.analyzeJob = async function(bookingId, notes, service) {
             if (!notes) {
                 alert("ไม่มีรายละเอียดงานให้วิเคราะห์");
@@ -1533,18 +1589,14 @@
             คำแนะนำ: [Short advice for freelancer]`;
 
             const result = await callGemini(prompt);
-            
             alert(`📊 ผลการวิเคราะห์จาก AI:\n\n${result}`);
-            
             if(btn) btn.innerHTML = '✨ AI ประเมิน';
         }
 
-        // === MODAL LOGIC ===
         window.handleCardClick = function(title, price, iconClass, description) {
-            // Only open modal if NOT in admin mode (to prevent conflict with double click editing)
-            if (!isAdmin) {
-                openServiceModal(title, price, iconClass, description);
-            }
+            // Only open modal if NOT in admin mode OR if clicking specific area
+            // But since we moved edit button to a specific icon, we can always open modal on card click
+            openServiceModal(title, price, iconClass, description);
         }
 
         window.openServiceModal = function(title, price, iconClass, description) {
@@ -1565,17 +1617,10 @@
         window.bookFromModal = function() {
             const serviceName = document.getElementById('modalTitle').textContent;
             const selectElement = document.getElementById('service');
-            
-            // Set value in dropdown
             selectElement.value = serviceName;
-            
-            // Close modal
             closeModal();
-            
-            // Scroll to booking section
             document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
             
-            // Highlight the select box temporarily
             selectElement.style.borderColor = '#60a5fa';
             selectElement.style.boxShadow = '0 0 15px rgba(96, 165, 250, 0.5)';
             setTimeout(() => {
@@ -1584,43 +1629,33 @@
             }, 1500);
         }
 
-        // === ADMIN LOGIC (Secret Trigger + CMS) ===
+        // === ADMIN LOGIC ===
         let isAdmin = false;
-        let clickCount = 0;
-        let clickTimer;
-
-        // Secret Trigger: Click Logo 4 times
-        document.getElementById('websiteLogo').addEventListener('click', (e) => {
-            e.preventDefault();
-            clickCount++;
-            
-            clearTimeout(clickTimer);
-            clickTimer = setTimeout(() => {
-                clickCount = 0;
-            }, 2000); // Reset count if 2 seconds pass
-
-            if (clickCount === 4) {
-                toggleAdminMode();
-                clickCount = 0;
-            }
-        });
 
         window.toggleAdminMode = function() {
             isAdmin = !isAdmin;
             const dashboard = document.getElementById('adminDashboard');
+            const toggleBtn = document.getElementById('adminToggle');
+            const editBtns = document.querySelectorAll('.edit-img-btn');
             
             if (isAdmin) {
                 dashboard.classList.add('active');
+                toggleBtn.classList.add('active');
+                toggleBtn.innerHTML = '<i class="fas fa-check-circle"></i> ปิดโหมด Admin';
                 enableContentEditing(true);
-                showToast("เข้าสู่โหมด Admin: แก้ไขข้อความได้โดยการคลิก");
+                editBtns.forEach(btn => btn.style.display = 'block');
+                showToast("เข้าสู่โหมด Admin");
                 renderDashboard();
             } else {
                 dashboard.classList.remove('active');
+                toggleBtn.classList.remove('active');
+                toggleBtn.innerHTML = '<i class="fas fa-user-shield"></i> สลับโหมด Admin';
                 enableContentEditing(false);
+                editBtns.forEach(btn => btn.style.display = 'none');
                 showToast("ออกจากโหมด Admin");
             }
             
-            renderCalendar(); // Re-render to show/hide status
+            renderCalendar();
         }
 
         function enableContentEditing(enable) {
@@ -1632,42 +1667,30 @@
 
         window.saveContent = function() {
             const contentData = {};
-            
-            // Save Text Content
             document.querySelectorAll('.editable').forEach(el => {
                 const key = el.getAttribute('data-key');
-                if (key) {
-                    contentData[key] = el.innerHTML;
-                }
+                if (key) contentData[key] = el.innerHTML;
             });
 
-            // Save Card Images
             const cards = {};
             document.querySelectorAll('.editable-card').forEach(card => {
-                if(card.style.backgroundImage) {
-                    cards[card.id] = card.style.backgroundImage;
-                }
+                if(card.style.backgroundImage) cards[card.id] = card.style.backgroundImage;
             });
             localStorage.setItem('workflow_card_images', JSON.stringify(cards));
-
             localStorage.setItem('workflow_content', JSON.stringify(contentData));
             showToast("บันทึกการแก้ไขเรียบร้อยแล้ว");
         }
 
         function loadContent() {
-            // Load Text
             const savedContent = localStorage.getItem('workflow_content');
             if (savedContent) {
                 const contentData = JSON.parse(savedContent);
                 Object.keys(contentData).forEach(key => {
                     const el = document.querySelector(`.editable[data-key="${key}"]`);
-                    if (el) {
-                        el.innerHTML = contentData[key];
-                    }
+                    if (el) el.innerHTML = contentData[key];
                 });
             }
 
-            // Load Images
             const savedImages = localStorage.getItem('workflow_card_images');
             if (savedImages) {
                 const cards = JSON.parse(savedImages);
@@ -1681,18 +1704,14 @@
             }
         }
 
-        function showToast(msg) {
+        window.showToast = function(msg) {
             const toast = document.getElementById('adminToast');
             toast.textContent = msg;
             toast.style.display = 'block';
-            setTimeout(() => {
-                toast.style.display = 'none';
-            }, 3000);
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
         }
 
         window.changeCardImage = function(cardId) {
-            if (!isAdmin) return;
-            
             const url = prompt("กรุณาใส่ URL รูปภาพ (เช่น https://example.com/image.jpg):");
             if (url) {
                 const card = document.getElementById(cardId);
@@ -1701,61 +1720,92 @@
             }
         }
 
-        // === FIREBASE DATA MANAGEMENT ===
+        // === BOOKING MANAGER (HYBRID) ===
         class BookingManager {
             constructor() {
                 this.bookings = [];
+                this.storageKey = 'workflow_bookings_local';
                 this.init();
             }
 
             async init() {
-                // Auth
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
+                if (useFirebase) {
+                    // Firebase Mode
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
 
-                // Listen
-                const q = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
-                onSnapshot(q, (snapshot) => {
-                    this.bookings = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    this.bookings.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-                    
-                    // Refresh UI
-                    renderCalendar();
-                    if(isAdmin) renderDashboard();
-                }, (error) => {
-                    console.error("Error fetching bookings:", error);
-                });
+                    const q = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
+                    onSnapshot(q, (snapshot) => {
+                        this.bookings = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                        this.bookings.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                        this.refreshUI();
+                    });
+                } else {
+                    // Local Storage Mode
+                    const data = localStorage.getItem(this.storageKey);
+                    this.bookings = data ? JSON.parse(data) : [];
+                    this.refreshUI();
+                }
+            }
+
+            refreshUI() {
+                renderCalendar();
+                if(isAdmin) renderDashboard();
             }
 
             async create(booking) {
-                if (!auth.currentUser) return;
-                const newBooking = {
-                    ...booking,
-                    created_at: new Date().toISOString()
-                };
-                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), newBooking);
+                const newBooking = { ...booking, created_at: new Date().toISOString() };
+                
+                if (useFirebase) {
+                    if (!auth.currentUser) return;
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), newBooking);
+                } else {
+                    newBooking.id = 'local_' + Date.now();
+                    this.bookings.push(newBooking);
+                    this.saveLocal();
+                    this.refreshUI();
+                }
             }
 
             async update(id, updates) {
-                if (!auth.currentUser) return;
-                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'bookings', id);
-                await updateDoc(docRef, updates);
+                if (useFirebase) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'bookings', id);
+                    await updateDoc(docRef, updates);
+                } else {
+                    const index = this.bookings.findIndex(b => b.id === id);
+                    if (index !== -1) {
+                        this.bookings[index] = { ...this.bookings[index], ...updates };
+                        this.saveLocal();
+                        this.refreshUI();
+                    }
+                }
             }
 
             async delete(id) {
-                if (!auth.currentUser) return;
-                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'bookings', id);
-                await deleteDoc(docRef);
+                if (useFirebase) {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'bookings', id);
+                    await deleteDoc(docRef);
+                } else {
+                    const index = this.bookings.findIndex(b => b.id === id);
+                    if (index !== -1) {
+                        this.bookings.splice(index, 1);
+                        this.saveLocal();
+                        this.refreshUI();
+                    }
+                }
+            }
+
+            saveLocal() {
+                localStorage.setItem(this.storageKey, JSON.stringify(this.bookings));
             }
 
             getAll() {
                 return this.bookings;
             }
 
-            // Check if a date has any confirmed bookings
             hasConfirmedBooking(dateStr) {
                 return this.bookings.some(b => b.booking_date === dateStr && b.status === 'confirmed');
             }
@@ -1768,7 +1818,6 @@
             const bookings = bookingManager.getAll();
             const dashList = document.getElementById('dashboardBookingList');
             
-            // Stats
             document.getElementById('dashTotal').textContent = bookings.length;
             document.getElementById('dashPending').textContent = bookings.filter(b => b.status === 'pending').length;
 
@@ -1800,7 +1849,7 @@
             `).join('');
         }
 
-        // === CALENDAR & BOOKING LOGIC ===
+        // === CALENDAR LOGIC ===
         const timeSlots = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
         let selectedDate = null;
         let selectedTime = null;
@@ -1809,30 +1858,20 @@
         function renderCalendar() {
             const year = currentMonth.getFullYear();
             const month = currentMonth.getMonth();
-            
-            const monthNames = [
-                'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
-                'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
-            ];
-
+            const monthNames = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
             document.getElementById('monthDisplay').textContent = `${monthNames[month]} ${year + 543}`;
 
             const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const daysInPrevMonth = new Date(year, month, 0).getDate();
-
             const calendarDays = document.getElementById('calendarDays');
             calendarDays.innerHTML = '';
 
-            // Previous month days
             for (let i = firstDay - 1; i >= 0; i--) {
                 const day = document.createElement('div');
                 day.className = 'calendar-day disabled';
-                day.textContent = daysInPrevMonth - i;
                 calendarDays.appendChild(day);
             }
 
-            // Current month days
             const today = new Date();
             today.setHours(0, 0, 0, 0);
 
@@ -1840,15 +1879,12 @@
                 const dayElement = document.createElement('div');
                 dayElement.className = 'calendar-day';
                 dayElement.textContent = day;
-
                 const currentDate = new Date(year, month, day);
                 currentDate.setHours(0, 0, 0, 0);
                 const dateStr = `${day}/${month + 1}/${year}`;
 
-                // Check for bookings
                 if (bookingManager.hasConfirmedBooking(dateStr)) {
                     dayElement.classList.add('booked');
-                    dayElement.title = "มีคิวจองแล้ว";
                 }
 
                 if (currentDate < today) {
@@ -1860,18 +1896,7 @@
                 if (selectedDate === dateStr) {
                     dayElement.classList.add('selected');
                 }
-
                 calendarDays.appendChild(dayElement);
-            }
-
-            // Next month days
-            const totalCells = firstDay + daysInMonth;
-            const remainingCells = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
-            for (let i = 1; i <= remainingCells; i++) {
-                const day = document.createElement('div');
-                day.className = 'calendar-day disabled';
-                day.textContent = i;
-                calendarDays.appendChild(day);
             }
         }
 
@@ -1887,26 +1912,19 @@
         function renderTimeSlots() {
             const slotsContainer = document.getElementById('timeSlots');
             slotsContainer.innerHTML = '';
-
             if (!selectedDate) {
                 slotsContainer.innerHTML = '<p style="color: rgba(255,255,255,0.6); text-align: center; grid-column: 1/-1;">กรุณาเลือกวันที่ก่อน</p>';
                 return;
             }
-
             timeSlots.forEach(time => {
                 const slot = document.createElement('div');
                 slot.className = 'time-slot';
                 slot.textContent = time;
-
-                if (selectedTime === time) {
-                    slot.classList.add('selected');
-                }
-
+                if (selectedTime === time) slot.classList.add('selected');
                 slot.addEventListener('click', () => {
                     selectedTime = time;
                     renderTimeSlots();
                 });
-
                 slotsContainer.appendChild(slot);
             });
         }
@@ -1914,65 +1932,32 @@
         document.getElementById('prevMonth').addEventListener('click', () => {
             currentMonth.setMonth(currentMonth.getMonth() - 1);
             selectedDate = null;
-            selectedTime = null;
             renderCalendar();
-            renderTimeSlots();
         });
 
         document.getElementById('nextMonth').addEventListener('click', () => {
             currentMonth.setMonth(currentMonth.getMonth() + 1);
             selectedDate = null;
-            selectedTime = null;
             renderCalendar();
-            renderTimeSlots();
         });
-
-        function showMessage(message, type) {
-            const msgEl = document.getElementById('message');
-            msgEl.textContent = message;
-            msgEl.className = `message ${type}`;
-            setTimeout(() => {
-                msgEl.className = 'message';
-            }, 5000);
-        }
 
         window.confirmBooking = async function(bookingId) {
             if (!isAdmin) return;
-            try {
-                await bookingManager.update(bookingId, { status: 'confirmed' });
-                showToast('ยืนยันการจองเรียบร้อย');
-            } catch(e) {
-                showToast('เกิดข้อผิดพลาด');
-            }
+            try { await bookingManager.update(bookingId, { status: 'confirmed' }); showToast('ยืนยันการจองเรียบร้อย'); } catch(e) { showToast('เกิดข้อผิดพลาด'); }
         };
 
         window.deleteBooking = async function(bookingId) {
             if (!isAdmin) return;
             if (!confirm('คุณแน่ใจหรือว่าต้องการลบการจองนี้?')) return;
-            
-            try {
-                await bookingManager.delete(bookingId);
-                showToast('ลบข้อมูลเรียบร้อย');
-            } catch(e) {
-                showToast('เกิดข้อผิดพลาดในการลบ');
-            }
+            try { await bookingManager.delete(bookingId); showToast('ลบข้อมูลเรียบร้อย'); } catch(e) { showToast('เกิดข้อผิดพลาด'); }
         };
 
-        // === FORM SUBMISSION ===
         document.getElementById('bookingForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-
-            if (!selectedDate || !selectedTime) {
-                showMessage('❌ กรุณาเลือกวันและเวลา', 'error');
-                return;
-            }
-
+            if (!selectedDate || !selectedTime) { showToast('❌ กรุณาเลือกวันและเวลา'); return; }
             const submitBtn = e.target.querySelector('button[type="submit"]');
-            const submitText = document.getElementById('submitText');
-            
             submitBtn.disabled = true;
-            submitText.innerHTML = '<span class="loading-spinner"></span>กำลังบันทึก...';
-
+            
             const bookingData = {
                 service_name: document.getElementById('service').value,
                 client_name: document.getElementById('clientName').value,
@@ -1986,32 +1971,22 @@
 
             try {
                 await bookingManager.create(bookingData);
-                showMessage('✅ จองคิวสำเร็จ! เรากำลังตรวจสอบ', 'success');
+                showToast('✅ จองคิวสำเร็จ! เรากำลังตรวจสอบ');
                 e.target.reset();
                 selectedDate = null;
-                selectedTime = null;
                 renderCalendar();
                 renderTimeSlots();
             } catch (error) {
-                showMessage('❌ ไม่สามารถจองคิวได้ กรุณาลองใหม่', 'error');
+                showToast('❌ ไม่สามารถจองคิวได้');
             } finally {
                 submitBtn.disabled = false;
-                submitText.textContent = 'จองคิว';
             }
         });
 
-        document.getElementById('bookingForm').addEventListener('reset', () => {
-            selectedDate = null;
-            selectedTime = null;
-            renderCalendar();
-            renderTimeSlots();
-        });
-
-        // === INIT ===
         function init() {
             renderCalendar();
             renderTimeSlots();
-            loadContent(); // Load saved CMS content
+            loadContent();
         }
 
         init();
